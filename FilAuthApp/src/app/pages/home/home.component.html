@@ -1,0 +1,19 @@
+<p-menubar class="p-element">
+    <ng-template pTemplate="start">
+        <b style="font-size: large; color: var(--primary-color);">Fil - Auth</b>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <button pButton class="p-button-raised p-menubar-end" icon="pi pi-code" type="button" label="Launch App" (click)="navigateToProfile()"></button>
+    </ng-template>
+</p-menubar>
+
+<p-dialog [(visible)]="displayConnectWalletDialog" [style]="{'max-width': '50vw'}">
+    <ng-template pTemplate="header">
+        <div>
+            <i class="pi pi-exclamation-triangle" [ngStyle]="{color:'var(--orange-500)'}"></i>
+            <b> Wallet Not Connected</b>
+        </div>
+    </ng-template>
+
+    {{ connectWalletMessage }}
+</p-dialog>
