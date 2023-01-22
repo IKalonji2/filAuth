@@ -13,6 +13,10 @@ export class ManageProfileComponent {
   walletConnected: boolean = false;
   connectWalletMessage: string = "Please make sure you are connected to your wallet before you continue...";
 
+  displayCreateProfileDialog: boolean = false;
+  displayUpdateProfileDialog: boolean = false;
+  displayRemoveProfileDialog: boolean = false;
+
   constructor(private router: Router) {}
 
   ngOnInit() {
@@ -39,6 +43,30 @@ export class ManageProfileComponent {
     } else {
       this.showConnectWalletDialog();
     }
+  }
+
+  showCreateProfileDialog() {
+    this.displayCreateProfileDialog = true;
+  }
+
+  closeCreateProfileDialog() {
+    this.displayCreateProfileDialog = false;
+  }
+
+  showUpdateProfileDialog() {
+    this.displayUpdateProfileDialog = true;
+  }
+
+  closeUpdateProfileDialog() {
+    this.displayUpdateProfileDialog = false;
+  }
+
+  showRemoveProfileDialog() {
+    this.displayRemoveProfileDialog = true;
+  }
+
+  closeRemoveProfileDialog() {
+    this.displayRemoveProfileDialog = false;
   }
 
   showConnectWalletDialog() {
