@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageUsersComponent } from './manage-users.component';
+import { AssignAccessComponent } from './assign-access.component';
 
-describe('ManageUsersComponent', () => {
-  let component: ManageUsersComponent;
-  let fixture: ComponentFixture<ManageUsersComponent>;
+describe('AssignAccessComponent', () => {
+  let component: AssignAccessComponent;
+  let fixture: ComponentFixture<AssignAccessComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ManageUsersComponent ]
+      declarations: [ AssignAccessComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ManageUsersComponent);
+    fixture = TestBed.createComponent(AssignAccessComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

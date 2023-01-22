@@ -1,0 +1,90 @@
+.container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 50px;
+    background-image: linear-gradient(to left bottom, var(--surface-a), var(--primary-color));
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 2px solid;
+    border-image: linear-gradient(to right, var(--surface-b), var(--primary-color)) 1;
+}
+
+.navbar .navbar-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.navbar .header {
+    display: flex;
+    gap: 5px;
+}
+
+.navbar img {
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--surface-b);
+}
+
+p-card {
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: space-evenly;
+}
+
+.card {
+    width: 100%;
+    padding: 10px;
+}
+
+.text-800 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    overflow-wrap: break-word;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.start {
+    display: flex;
+    border-bottom: 1px solid var(--surface-c);
+    padding-left: 15px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid var(--surface-c);
+}
+
+.end {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+
+}
+
+.content {
+    margin: 20px 0;
+}

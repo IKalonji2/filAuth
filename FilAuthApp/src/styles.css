@@ -1,4 +1,12 @@
-@import url('../node_modules/primeicons/primeicons.css');
-@import url('../node_modules/font-awesome/css/font-awesome.min.css');
-@import url('../node_modules/primeng/resources/themes/arya-blue/theme.css');
-@import url('../node_modules/primeng/resources/primeng.min.css');
+@import url('node_modules/primeicons/primeicons.css');
+@import url('node_modules/font-awesome/css/font-awesome.min.css');
+@import url('../node_modules/primeng/resources/themes/arya-green/theme.css');
+@import url('node_modules/primeng/resources/primeng.min.css');
+
+* {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+body {
+    height: 100%;
+}

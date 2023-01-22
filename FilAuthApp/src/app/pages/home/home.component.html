@@ -1,19 +1,44 @@
-<p-menubar class="p-element">
-    <ng-template pTemplate="start">
-        <b style="font-size: large; color: var(--primary-color);">Fil - Auth</b>
-    </ng-template>
-    <ng-template pTemplate="end">
-        <button pButton class="p-button-raised p-menubar-end" icon="pi pi-code" type="button" label="Launch App" (click)="navigateToProfile()"></button>
-    </ng-template>
-</p-menubar>
-
-<p-dialog [(visible)]="displayConnectWalletDialog" [style]="{'max-width': '50vw'}">
-    <ng-template pTemplate="header">
-        <div>
-            <i class="pi pi-exclamation-triangle" [ngStyle]="{color:'var(--orange-500)'}"></i>
-            <b> Wallet Not Connected</b>
+<div p class="container ">
+    <div class="navbar">
+        <div class="header">
+            <img src="../../../assets/icon.png">
+            <div class="navbar-title">Fil-Auth</div>
         </div>
-    </ng-template>
+        <button pButton type="button" icon="pi pi-code" iconPos="right" label="Launch App" (click)="navigateToProfile()"></button>
+    </div>
 
-    {{ connectWalletMessage }}
-</p-dialog>
+    <div class="row">
+        <div class="card text-800">
+            Identity And Access Management Made Easier And Safer.
+        </div>
+        <img src="../../../assets/favicon.png">
+    </div>
+
+    <div class="row">
+        <p-card></p-card>
+        <p-card></p-card>
+        <p-card></p-card>
+    </div>
+
+    <p-card>
+        <ng-template pTemplate="header">
+            <div class="center">
+                <span class="card-title">How Does It Work?</span>
+            </div>
+        </ng-template>
+
+        <p-steps [model]="items" [activeIndex]="activeIndex"></p-steps>
+
+        <div class="content" style="color: var(--blue-100)">
+            {{ instructions[activeIndex].instruction }}
+        </div>
+
+        <ng-template pTemplate="footer">
+            <div class="end">
+                <button *ngIf="activeIndex > 0" pButton type="button" class="p-button-outlined p-button-warning" icon="pi pi-chevron-left" (click)="previousInstructionStep()" label="Previous"></button>
+                <button *ngIf="activeIndex >= 0 && activeIndex < 2" pButton type="button" class="p-button-outlined p-button-success" icon="pi pi-chevron-right" (click)="nextInstructionStep()" iconPos="right" label="Next"></button>
+                <button *ngIf="activeIndex >= 2" pButton type="button" class="p-button-outlined" icon="pi pi-code" iconPos="right" (click)="navigateToProfile()" label="Launch App"></button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>

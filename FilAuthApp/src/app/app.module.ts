@@ -4,21 +4,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { DialogModule } from 'primeng/dialog';
+import { CardModule } from 'primeng/card';
+import {StepsModule} from 'primeng/steps';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ManageProfileComponent } from './pages/manage-profile/manage-profile.component';
-import { ManageAccessComponent } from './pages/manage-access/manage-access.component';
-import { ManageUsersComponent } from './pages/manage-users/manage-users.component';
+import { SetupAccessComponent } from './pages/setup-access/setup-access.component';
+import { AssignAccessComponent } from './pages/assign-access/assign-access.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ManageProfileComponent,
-    ManageAccessComponent,
-    ManageUsersComponent,
+    SetupAccessComponent,
+    AssignAccessComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +30,9 @@ import { ManageUsersComponent } from './pages/manage-users/manage-users.componen
     ButtonModule,
     MenubarModule,
     DialogModule,
+    CardModule,
+    StepsModule,
+    TooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

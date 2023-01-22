@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { ManageAccessComponent } from './pages/manage-access/manage-access.component';
+import { SetupAccessComponent } from './pages/setup-access/setup-access.component';
 import { ManageProfileComponent } from './pages/manage-profile/manage-profile.component';
-import { ManageUsersComponent } from './pages/manage-users/manage-users.component';
+import { AssignAccessComponent } from './pages/assign-access/assign-access.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'profile', component: ManageProfileComponent },
-  { path: 'access', component: ManageAccessComponent },
-  { path: 'users', component: ManageUsersComponent },
+  { path: 'access', component: SetupAccessComponent },
+  { path: 'users', component: AssignAccessComponent },
 ];
 
 @NgModule({
