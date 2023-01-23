@@ -7,9 +7,8 @@
     </ng-template>
     <ng-template pTemplate="end">
         <div class="row gap-10">
-            <button *ngIf="!profileConnected" (click)="showCreateProfileDialog()" pButton class="p-button-rounded p-button-outlined" pTooltip="Create Profile" icon="pi pi-user-plus" tooltipPosition="left" iconPos="right" type="button"></button>
-            <button *ngIf="profileConnected" (click)="showUpdateProfileDialog()" pButton class="p-button-rounded p-button-outlined p-button-warning" pTooltip="Update Profile" tooltipPosition="left" icon="pi pi-user-edit" iconPos="right" type="button"></button>
-            <button *ngIf="profileConnected" (click)="showRemoveProfileDialog()" pButton class="p-button-rounded p-button-outlined p-button-danger" pTooltip="Remove Profile" tooltipPosition="left" icon="pi pi-user-minus" iconPos="right" type="button"></button>
+            <button *ngIf="!profileConnected" pButton type="button" class="p-button-raised" (click)="showCreateProfileDialog()" icon="pi pi-user-plus" iconPos="right" label="Create Profile"></button>
+            <button *ngIf="profileConnected" pButton type="button" class="p-button-rounded p-button-outlined" icon="pi pi-user" pTooltip="Connected" tooltipPosition="left"></button>
         </div>
     </ng-template>
 </p-menubar>
@@ -33,28 +32,65 @@
     </div>
 
     <div class="stats" *ngIf="profileConnected">
-        <p-card header="Statistics">
+        <p-card header="Systems Managed">
             <div class="row startend">
-                <span class="pi pi-chart-line icon blue-color"></span>
-                <span class="text">25</span>
+                <div class="pi pi-chart-line icon blue-color"></div>
+                <div class="text">25</div>
             </div>
         </p-card>
         <p-card header="Access Rules">
             <div class="row startend">
-                <span class="pi pi-unlock icon orange-color"></span>
-                <span class="text">78</span>
+                <div class="pi pi-unlock icon orange-color"></div>
+                <div class="text">78</div>
             </div>
         </p-card>
         <p-card header="Users">
             <div class="row startend">
-                <span class="pi pi-users icon green-color"></span>
-                <span class="text">1187</span>
+                <div class="pi pi-users icon green-color"></div>
+                <div class="text">1187</div>
             </div>
+        </p-card>
+    </div>
+
+    <div *ngIf="profileConnected" class="row" style="justify-content: flex-end;">
+        <p-card header="My Organization" style="width: 50%">
+            <div class="details">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-briefcase"></i>
+                    <input pInputText placeholder="Organization" [disabled]="disableEdit">
+                </span>
+    
+                <span class="p-input-icon-left">
+                    <i class="pi pi-globe"></i>
+                    <input pInputText placeholder="Country" [disabled]="disableEdit">
+                </span>
+                
+                <span class="p-input-icon-left">
+                    <i class="pi pi-map"></i>
+                    <input pInputText placeholder="Provinve/State" [disabled]="disableEdit">
+                </span>
+                
+                <span class="p-input-icon-left">
+                    <i class="pi pi-building"></i>
+                    <input pInputText placeholder="City" [disabled]="disableEdit">
+                </span>
+                
+                <span class="p-input-icon-left">
+                    <i class="pi pi-paperclip"></i>
+                    <input pInputText placeholder="Zip Code" [disabled]="disableEdit">
+                </span>
+            </div>
+            <ng-template pTemplate="footer">
+                <div class="align-end">
+                    <button *ngIf="profileConnected" (click)="showRemoveProfileDialog()" pButton class="p-button-outlined p-button-danger" label="Remove" tooltipPosition="left" icon="pi pi-trash" iconPos="right" type="button"></button>
+                    <button *ngIf="profileConnected" (click)="showUpdateProfileDialog()" pButton class="p-button-outlined p-button-warning" label="Edit" tooltipPosition="left" icon="pi pi-pencil" iconPos="right" type="button"></button>
+                </div>
+            </ng-template>
         </p-card>
     </div>
 </div>
 
-<p-dialog [(visible)]="displayConnectWalletDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+<p-dialog [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayConnectWalletDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
     <ng-template pTemplate="header">
         <div>
             <i class="pi pi-exclamation-triangle" [ngStyle]="{color:'var(--orange-500)'}"></i>
@@ -65,28 +101,80 @@
     {{ connectWalletMessage }}
 </p-dialog>
 
-<p-dialog header="Create Profile" [(visible)]="displayCreateProfileDialog" [maximizable]="true" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
-    Content
+<p-dialog header="Create Profile" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayCreateProfileDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+    <div class="details">
+        <span class="p-input-icon-left">
+            <i class="pi pi-briefcase"></i>
+            <input pInputText placeholder="Organization" type="text">
+        </span>
+
+        <span class="p-input-icon-left">
+            <i class="pi pi-globe"></i>
+            <input pInputText placeholder="Country" type="country">
+        </span>
+        
+        <span class="p-input-icon-left">
+            <i class="pi pi-map"></i>
+            <input pInputText placeholder="Provinve/State">
+        </span>
+        
+        <span class="p-input-icon-left">
+            <i class="pi pi-building"></i>
+            <input pInputText placeholder="City">
+        </span>
+        
+        <span class="p-input-icon-left">
+            <i class="pi pi-paperclip"></i>
+            <input pInputText placeholder="Zip Code">
+        </span>
+    </div>
+
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeCreateProfileDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right"></button>
-            <button pButton type="button" class="p-button-outlined p-button-success" label="Confirm" icon="pi pi-check" iconPos="right" autofocus></button>
+            <button pButton type="button" class="p-button-outlined p-button-success" label="Create" icon="pi pi-check" iconPos="right" autofocus></button>
         </div>
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Update Profile" [(visible)]="displayUpdateProfileDialog" [maximizable]="true" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
-    Content
+<p-dialog header="Update Profile" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayUpdateProfileDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+    <div class="details">
+        <span class="p-input-icon-left">
+            <i class="pi pi-briefcase"></i>
+            <input pInputText placeholder="Organization" type="text">
+        </span>
+
+        <span class="p-input-icon-left">
+            <i class="pi pi-globe"></i>
+            <input pInputText placeholder="Country" type="country">
+        </span>
+        
+        <span class="p-input-icon-left">
+            <i class="pi pi-map"></i>
+            <input pInputText placeholder="Provinve/State">
+        </span>
+        
+        <span class="p-input-icon-left">
+            <i class="pi pi-building"></i>
+            <input pInputText placeholder="City">
+        </span>
+        
+        <span class="p-input-icon-left">
+            <i class="pi pi-paperclip"></i>
+            <input pInputText placeholder="Zip Code">
+        </span>
+    </div>
+
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeUpdateProfileDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>
-            <button pButton type="button" class="p-button-outlined p-button-success" label="Confirm" icon="pi pi-check" iconPos="right"></button>
+            <button pButton type="button" class="p-button-outlined p-button-success" label="Update" icon="pi pi-check" iconPos="right"></button>
         </div>
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Remove Profile" [(visible)]="displayRemoveProfileDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
-    Content
+<p-dialog header="Remove Profile" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayRemoveProfileDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+    Are you sure you want to remove the Organization?
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeRemoveProfileDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>

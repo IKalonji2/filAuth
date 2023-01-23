@@ -5,8 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { DialogModule } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
-import {StepsModule} from 'primeng/steps';
+import { StepsModule } from 'primeng/steps';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputTextModule } from 'primeng/inputtext';
+import { AccordionModule } from 'primeng/accordion';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,7 +34,9 @@ import { AssignAccessComponent } from './pages/assign-access/assign-access.compo
     DialogModule,
     CardModule,
     StepsModule,
-    TooltipModule
+    TooltipModule,
+    InputTextModule,
+    AccordionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

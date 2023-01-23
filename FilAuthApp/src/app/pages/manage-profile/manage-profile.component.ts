@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-manage-profile',
@@ -16,6 +15,8 @@ export class ManageProfileComponent {
   displayCreateProfileDialog: boolean = false;
   displayUpdateProfileDialog: boolean = false;
   displayRemoveProfileDialog: boolean = false;
+
+  disableEdit: boolean = true;
 
   constructor(private router: Router) {}
 

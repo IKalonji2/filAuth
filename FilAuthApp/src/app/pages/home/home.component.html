@@ -37,7 +37,7 @@
             <div class="end">
                 <button *ngIf="activeIndex > 0" pButton type="button" class="p-button-outlined p-button-warning" icon="pi pi-chevron-left" (click)="previousInstructionStep()" label="Previous"></button>
                 <button *ngIf="activeIndex >= 0 && activeIndex < 2" pButton type="button" class="p-button-outlined p-button-success" icon="pi pi-chevron-right" (click)="nextInstructionStep()" iconPos="right" label="Next"></button>
-                <button *ngIf="activeIndex >= 2" pButton type="button" class="p-button-outlined" icon="pi pi-code" iconPos="right" (click)="navigateToProfile()" label="Launch App"></button>
+                <button *ngIf="activeIndex >= 2" pButton type="button" class="p-button-raised" icon="pi pi-code" iconPos="right" (click)="navigateToProfile()" label="Launch App"></button>
             </div>
         </ng-template>
     </p-card>

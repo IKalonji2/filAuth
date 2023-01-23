@@ -16,3 +16,53 @@
     border-radius: 5px;
     border: 1px solid var(--surface-b);
 }
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-row .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+p-card {
+    height: 100%;
+}
+
+.panel-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--surface-c);
+    padding: 5px 5px 5px 10px;
+}
+
+.panel-row .title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.panel-row .row {
+    display: flex;
+    gap: 10px;
+}
+
+.rules {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 40rem;
+    padding-right: 5px;
+    overflow-y: auto;
+}
