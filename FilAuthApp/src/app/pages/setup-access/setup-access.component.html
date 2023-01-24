@@ -17,18 +17,21 @@
     </div>
 
     <p-card header="Available Access Rules">
-        <div class="rules">
-            <div class="panel-row">
-                <div class="title">1 - Main Website</div>
-                <div class="row">
-                    <button pButton type="button"(click)="openRemoveDialog()" class="p-button-sm p-button-text p-button-danger" pTooltip="Remove Access Rule" tooltipPosition="left" icon="pi pi-unlock" iconPos="right"></button>
-                    <button pButton type="button"(click)="openUpdateRuleDialog()" class="p-button-sm p-button-text p-button-warning" pTooltip="Update Access Rule" tooltipPosition="left" icon="pi pi-pencil" iconPos="right"></button>
-                    <button pButton type="button"(click)="navigateToUsers()" class="p-button-sm p-button-text p-button-info" pTooltip="Manage User" tooltipPosition="left" icon="pi pi-users" iconPos="right"></button>
-                </div>
+        <div class="no-rules" *ngIf="!(accessRules.length > 0)">
+            <div class="center">
+                <span class="pi pi-exclamation-triangle no-rules-icon"></span>
             </div>
-            
-            <div class="panel-row">
-                <div class="title">2 - Secondary Website</div>
+            <div class="center">
+                <span class="no-rules-msg">No Access Rule Found!</span>
+            </div>
+            <div class="center">
+                <button pButton type="button" class="p-button-raised p-button-warning" (click)="openCreateRuleDialog()" icon="pi pi-unlock" iconPos="right" label="Create Access Rule"></button>
+            </div>
+        </div>
+
+        <div class="rules" *ngIf="accessRules.length > 0">
+            <div class="panel-row" *ngFor="let rule of accessRules">
+                <div class="title">- Main Website</div>
                 <div class="row">
                     <button pButton type="button"(click)="openRemoveDialog()" class="p-button-sm p-button-text p-button-danger" pTooltip="Remove Access Rule" tooltipPosition="left" icon="pi pi-unlock" iconPos="right"></button>
                     <button pButton type="button"(click)="openUpdateRuleDialog()" class="p-button-sm p-button-text p-button-warning" pTooltip="Update Access Rule" tooltipPosition="left" icon="pi pi-pencil" iconPos="right"></button>
@@ -44,7 +47,7 @@
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeCreateRuleDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>
-            <button pButton type="button" class="p-button-outlined p-button-success" label="Create" icon="pi pi-check" iconPos="right"></button>
+            <button pButton type="button" (click)="createAccessRule()" class="p-button-outlined p-button-success" label="Create" icon="pi pi-check" iconPos="right"></button>
         </div>
     </ng-template>
 </p-dialog>

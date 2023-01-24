@@ -16,3 +16,25 @@
     border-radius: 5px;
     border: 1px solid var(--surface-b);
 }
+
+.no-users {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 150px;
+}
+
+.center {
+    justify-content: center;
+}
+
+.no-usesr-icon {
+    font-size: 3.5rem;
+    color: var(--orange-500);
+}
+
+.no-users-msg {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--surface-d);
+}

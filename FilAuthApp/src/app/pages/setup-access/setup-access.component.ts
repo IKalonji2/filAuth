@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccessRule } from 'src/app/models/models';
 
 @Component({
   selector: 'app-setup-access',
@@ -7,6 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./setup-access.component.css']
 })
 export class SetupAccessComponent {
+  accessRules: AccessRule[] = [];
+  accessRule?: AccessRule;
+
   displayCreateRule: boolean = false;
   displayUpdateRule: boolean = false;
   displayRemoveRule: boolean = false;
@@ -17,12 +21,9 @@ export class SetupAccessComponent {
     this.router.navigate(["/users"]);
   }
 
-  openRemoveDialog() {
-    this.displayRemoveRule = true;
-  }
-
-  closeRemoveDialog() {
-    this.displayRemoveRule = false;
+  createAccessRule() {
+    this.accessRules.push(new AccessRule());
+    this.closeCreateRuleDialog();
   }
 
   openCreateRuleDialog() {
@@ -39,5 +40,13 @@ export class SetupAccessComponent {
 
   closeUpdateRuleDialog() {
     this.displayUpdateRule = false;
+  }
+
+  openRemoveDialog() {
+    this.displayRemoveRule = true;
+  }
+
+  closeRemoveDialog() {
+    this.displayRemoveRule = false;
   }
 }

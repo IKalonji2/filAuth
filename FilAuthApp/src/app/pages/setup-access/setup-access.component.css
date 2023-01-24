@@ -43,8 +43,8 @@ p-card {
     justify-content: space-between;
     width: 100%;
     border-radius: 5px;
-    border: 1px solid var(--surface-c);
-    padding: 5px 5px 5px 10px;
+    border: 1px solid var(--surface-d);
+    padding: 5px 5px 5px 15px;
 }
 
 .panel-row .title {
@@ -65,4 +65,26 @@ p-card {
     height: 40rem;
     padding-right: 5px;
     overflow-y: auto;
+}
+
+.no-rules {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.no-rules-icon {
+    font-size: 3.5rem;
+    color: var(--orange-500);
+}
+
+.no-rules-msg {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--surface-d);
 }
