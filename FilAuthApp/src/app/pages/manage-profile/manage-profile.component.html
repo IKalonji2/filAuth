@@ -35,55 +35,56 @@
         <p-card header="Systems Managed">
             <div class="row startend">
                 <div class="pi pi-chart-line icon blue-color"></div>
-                <div class="text">25</div>
+                <div class="text">{{ organization.statistics.systems }}</div>
             </div>
         </p-card>
         <p-card header="Access Rules">
             <div class="row startend">
                 <div class="pi pi-unlock icon orange-color"></div>
-                <div class="text">78</div>
+                <div class="text">{{ organization.statistics.rules }}</div>
             </div>
         </p-card>
         <p-card header="Users">
             <div class="row startend">
                 <div class="pi pi-users icon green-color"></div>
-                <div class="text">1187</div>
+                <div class="text">{{ organization.statistics.users }}</div>
             </div>
         </p-card>
     </div>
 
     <div *ngIf="profileConnected" class="row" style="justify-content: flex-end;">
-        <p-card header="My Organization" style="width: 50%">
+        <p-card header="Organization Details" style="width: 50%">
             <div class="details">
                 <span class="p-input-icon-left">
                     <i class="pi pi-briefcase"></i>
-                    <input pInputText placeholder="Organization" [disabled]="disableEdit">
+                    <input type="text" pInputText placeholder="Organization" [(ngModel)]="organization.name" pTooltip="organization name" tooltipPosition="bottom" [disabled]="disableEdit">
                 </span>
     
                 <span class="p-input-icon-left">
                     <i class="pi pi-globe"></i>
-                    <input pInputText placeholder="Country" [disabled]="disableEdit">
+                    <input type="text" pInputText placeholder="Country" [(ngModel)]="organization.country" pTooltip="country" tooltipPosition="bottom" [disabled]="disableEdit">
                 </span>
                 
                 <span class="p-input-icon-left">
                     <i class="pi pi-map"></i>
-                    <input pInputText placeholder="Provinve/State" [disabled]="disableEdit">
+                    <input type="text" pInputText placeholder="Provinve/State" [(ngModel)]="organization.province" pTooltip="privince/state" tooltipPosition="bottom" [disabled]="disableEdit">
                 </span>
                 
                 <span class="p-input-icon-left">
                     <i class="pi pi-building"></i>
-                    <input pInputText placeholder="City" [disabled]="disableEdit">
+                    <input type="text" pInputText placeholder="City" pTooltip="city" [(ngModel)]="organization.city" tooltipPosition="bottom" [disabled]="disableEdit">
                 </span>
                 
                 <span class="p-input-icon-left">
                     <i class="pi pi-paperclip"></i>
-                    <input pInputText placeholder="Zip Code" [disabled]="disableEdit">
+                    <input type="text" pInputText placeholder="Zip Code" pTooltip="zip code" [(ngModel)]="organization.zip" tooltipPosition="bottom" [disabled]="disableEdit">
                 </span>
             </div>
             <ng-template pTemplate="footer">
                 <div class="align-end">
-                    <button *ngIf="profileConnected" (click)="showRemoveProfileDialog()" pButton class="p-button-outlined p-button-danger" label="Remove" tooltipPosition="left" icon="pi pi-trash" iconPos="right" type="button"></button>
-                    <button *ngIf="profileConnected" (click)="showUpdateProfileDialog()" pButton class="p-button-outlined p-button-warning" label="Edit" tooltipPosition="left" icon="pi pi-pencil" iconPos="right" type="button"></button>
+                    <button *ngIf="disableEdit" (click)="showRemoveProfileDialog()" pButton class="p-button-outlined p-button-danger" label="Remove" tooltipPosition="left" icon="pi pi-trash" iconPos="right" type="button"></button>
+                    <button *ngIf="disableEdit" (click)="disableEdit = disableEdit ? false : true" pButton class="p-button-outlined p-button-warning" label="Edit" tooltipPosition="left" icon="pi pi-pencil" iconPos="right" type="button"></button>
+                    <button *ngIf="!disableEdit" (click)="showUpdateProfileDialog()" pButton class="p-button-outlined p-button-success" label="Update" tooltipPosition="left" icon="pi pi-check" iconPos="right" type="button"></button>
                 </div>
             </ng-template>
         </p-card>
@@ -105,80 +106,54 @@
     <div class="details">
         <span class="p-input-icon-left">
             <i class="pi pi-briefcase"></i>
-            <input pInputText placeholder="Organization" type="text">
+            <input type="text" pInputText placeholder="Organization" [(ngModel)]="organization.name" pTooltip="organization name" tooltipPosition="bottom">
         </span>
 
         <span class="p-input-icon-left">
             <i class="pi pi-globe"></i>
-            <input pInputText placeholder="Country" type="country">
+            <input type="text" pInputText placeholder="Country" [(ngModel)]="organization.country" pTooltip="country" tooltipPosition="bottom">
         </span>
         
         <span class="p-input-icon-left">
             <i class="pi pi-map"></i>
-            <input pInputText placeholder="Provinve/State">
+            <input type="text" pInputText placeholder="Provinve/State" [(ngModel)]="organization.province" pTooltip="province/state" tooltipPosition="bottom">
         </span>
         
         <span class="p-input-icon-left">
             <i class="pi pi-building"></i>
-            <input pInputText placeholder="City">
+            <input type="text" pInputText placeholder="City" [(ngModel)]="organization.city" pTooltip="city" tooltipPosition="bottom">
         </span>
         
         <span class="p-input-icon-left">
             <i class="pi pi-paperclip"></i>
-            <input pInputText placeholder="Zip Code">
+            <input type="text" pInputText placeholder="Zip Code" [(ngModel)]="organization.zip" pTooltip="zip code" tooltipPosition="bottom">
         </span>
     </div>
 
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeCreateProfileDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right"></button>
-            <button pButton type="button" class="p-button-outlined p-button-success" label="Create" icon="pi pi-check" iconPos="right" autofocus></button>
+            <button pButton type="button" (click)="createOrganization()" class="p-button-outlined p-button-success" label="Create" icon="pi pi-check" iconPos="right" autofocus></button>
         </div>
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Update Profile" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayUpdateProfileDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
-    <div class="details">
-        <span class="p-input-icon-left">
-            <i class="pi pi-briefcase"></i>
-            <input pInputText placeholder="Organization" type="text">
-        </span>
-
-        <span class="p-input-icon-left">
-            <i class="pi pi-globe"></i>
-            <input pInputText placeholder="Country" type="country">
-        </span>
-        
-        <span class="p-input-icon-left">
-            <i class="pi pi-map"></i>
-            <input pInputText placeholder="Provinve/State">
-        </span>
-        
-        <span class="p-input-icon-left">
-            <i class="pi pi-building"></i>
-            <input pInputText placeholder="City">
-        </span>
-        
-        <span class="p-input-icon-left">
-            <i class="pi pi-paperclip"></i>
-            <input pInputText placeholder="Zip Code">
-        </span>
-    </div>
-
+<p-dialog header="Confirm Update Profile" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayUpdateProfileDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+    Are you sure you want to save the Organization changes?
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeUpdateProfileDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>
-            <button pButton type="button" class="p-button-outlined p-button-success" label="Update" icon="pi pi-check" iconPos="right"></button>
+            <button pButton type="button" (click)="updateOrganization()" class="p-button-outlined p-button-success" label="Update" icon="pi pi-check" iconPos="right"></button>
         </div>
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Remove Profile" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayRemoveProfileDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+<p-dialog header="Confirm Remove Profile" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayRemoveProfileDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
     Are you sure you want to remove the Organization?
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeRemoveProfileDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>
-            <button pButton type="button" class="p-button-outlined p-button-success" label="Confirm" icon="pi pi-check" iconPos="right"></button>
+            <button pButton type="button" (click)="removeOrganization()" class="p-button-outlined p-button-success" label="Confirm" icon="pi pi-check" iconPos="right"></button>
         </div>
     </ng-template>
 </p-dialog>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Organization } from 'src/app/models/models';
 
 @Component({
   selector: 'app-manage-profile',
@@ -7,6 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./manage-profile.component.css']
 })
 export class ManageProfileComponent {
+
+  organization: Organization;
+
   profileConnected: boolean = false;
   displayConnectWalletDialog: boolean = false;
   walletConnected: boolean = false;
@@ -18,24 +22,42 @@ export class ManageProfileComponent {
 
   disableEdit: boolean = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.organization = this.getOrganizationDetails();
+  }
 
   ngOnInit() {
     this.connectToWallet();
 
     if(!this.walletConnected) {
       this.showConnectWalletDialog();
+    } else {
+      this.connectToProfile();
     }
+  }
 
-    this.connectToProfile();
+  getOrganizationDetails() {
+    return {
+      address: "HJF84FJHV5RKJV8RH4654E",
+      name : "Fil Auth Company Pty Ltd.",
+      country : "South Africa",
+      province : "Gauteng",
+      city : "Johannesburg",
+      zip : "2092",
+      statistics : this.getOrganizationStatistics()
+    };
+  }
+
+  getOrganizationStatistics() {
+    return {
+      systems : 26,
+      rules : 79,
+      users : 1188
+    };
   }
 
   connectToWallet() {
     this.walletConnected = true;
-  }
-
-  connectToProfile() {
-    this.profileConnected = true;
   }
 
   navigateToAccess() {
@@ -44,6 +66,34 @@ export class ManageProfileComponent {
     } else {
       this.showConnectWalletDialog();
     }
+  }
+
+  connectToProfile() {
+    if(this.organization?.address) {
+      this.profileConnected = true;
+    } else {
+      this.organization = new Organization();
+      this.profileConnected = false;
+    }
+  }
+
+  createOrganization() {
+    this.organization.address = "HJF84FJHV5RKJV8RH4654E";
+    this.closeCreateProfileDialog();
+    this.connectToProfile();
+  }
+
+  updateOrganization() {
+    this.closeUpdateProfileDialog();
+    this.disableEdit = true;
+  }
+
+  removeOrganization() {
+    if(this.organization) {
+      this.organization = new Organization();
+    }
+    this.connectToProfile();
+    this.closeRemoveProfileDialog();
   }
 
   showCreateProfileDialog() {
