@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { WalletService } from 'src/app/services/wallet.service';
 
 @Component({
   selector: 'app-home',
@@ -20,14 +21,21 @@ export class HomeComponent {
     { "step": "Assign", "instruction": "Assign Access Rules To Users." },
   ]
   
-  constructor(private router: Router) {}
+  constructor(private router: Router, private walletService: WalletService) {}
 
   ngOnInit() {
     this.items = this.instructions.map((i:any) =>  { return { label: i.step };});
   }
 
-  navigateToProfile() {
-    this.router.navigate(['/profile']);
+  async navigateToProfile() {
+    await this.walletService.connectWallet();
+    if (this.walletService.walletConnected == true){
+      console.log(this.walletService.walletConnected)
+      this.router.navigate(['/profile']);
+    } else {
+      alert("Please connect a wallet!")
+    }
+    
   }
 
   nextInstructionStep() {

@@ -97,4 +97,12 @@ contract AccessControl {
     function isOrganizationRegistered(address org) public view returns (bool) {
         return bytes(registeredEntity[org]).length != 0;
     }
+
+    function getAccessLevelsList() public view returns(AccessRight[] memory access){
+        access = accessLevels[msg.sender];        
+    }
+
+    function getAccessUsersByContract(address _contract) public view returns(address[] memory owners){
+        owners = AccessNFT(_contract).getOwnersList();
+    }
 }

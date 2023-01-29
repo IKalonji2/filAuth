@@ -49,6 +49,8 @@ contract AccessNFT is IERC721 {
     string tokenUri;
     address module;
     uint256 tokenId;
+    uint256 maxOwners;
+    address[] public owners; 
 
     event Transfer(address indexed from, address indexed to, uint indexed id);
     event Approval(address indexed owner, address indexed spender, uint indexed id);
@@ -178,10 +180,11 @@ contract AccessNFT is IERC721 {
         require(msg.sender == module, "Call through module contract");
         require(to != address(0), "mint to zero address");
         require(_ownerOf[tokenId+1] == address(0), "already minted");
+        require(maxOwners > owners.length, "Max access reached");
         tokenId++;
         _balanceOf[to]++;
         _ownerOf[tokenId] = to;
-
+        owners.push(to);
         emit Transfer(address(0), to, tokenId);
     }
 
@@ -195,6 +198,24 @@ contract AccessNFT is IERC721 {
         delete _ownerOf[id];
         delete _approvals[id];
 
+        removeOwner(owner);
+
         emit Transfer(owner, address(0), id);
+    }
+
+    function removeOwner(address _addr) internal {
+        address[] memory _temp;
+        uint256 index;
+        for(uint256 i = 0; i < owners.length; i++){
+            if(owners[i] != _addr){
+                _temp[index] = owners[i];
+                index++;
+            }
+        }
+        owners = _temp;
+    }
+
+    function getOwnersList() public view returns(address[] memory _owners){
+        _owners = owners;
     }
 }
