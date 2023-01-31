@@ -44,12 +44,12 @@ p-card {
     width: 100%;
     border-radius: 5px;
     border: 1px solid var(--surface-d);
-    padding: 5px 5px 5px 15px;
+    padding-left: 10px;
 }
 
 .panel-row .title {
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
     margin-top: 5px;
 }
 
@@ -88,4 +88,14 @@ p-card {
     font-weight: 500;
     text-align: center;
     color: var(--surface-d);
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.details span, span input {
+    width: 100%;
 }

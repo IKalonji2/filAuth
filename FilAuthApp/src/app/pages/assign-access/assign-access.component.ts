@@ -13,7 +13,9 @@ export class AssignAccessComponent {
   displayRemoveUser: boolean = false;
 
   users: User[] = [];
-  user?: User;
+  user: User = new User();
+
+  currentUserUUID: string = "";
 
   accessRuleId: any = "";
 
@@ -25,27 +27,43 @@ export class AssignAccessComponent {
         this.loadUsers(this.accessRuleId);
       }
     }
-    console.log(this.accessRuleId)
   }
 
   loadUsers(accessRuleId: string) {
     //Service call
   }
 
+  addUser() {
+    this.users.push(this.user);
+    this.closeAddUserDialog();
+  }
+
+  removeUser() {
+    let index = this.users.findIndex(u => u.uuid === this.currentUserUUID);
+    if(index > -1) {
+      this.users.splice(index, 1);
+    }
+    this.closeRemoveUserDialog();
+  }
+
   openAddUserDialog() {
     this.displayAddUser = true;
+    this.user = new User();
   }
 
   closeAddUserDialog() {
     this.displayAddUser = false;
+    this.user = new User();
   }
 
   openRemoveUserDialog(uuid: string) {
     this.displayRemoveUser = true;
+    this.currentUserUUID = uuid;
   }
 
   closeRemoveUserDialog() {
     this.displayRemoveUser = false;
+    this.currentUserUUID = "";
   }
 
 }
