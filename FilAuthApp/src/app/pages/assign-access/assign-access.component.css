@@ -17,18 +17,68 @@
     border: 1px solid var(--surface-b);
 }
 
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-row .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+p-card {
+    height: 100%;
+}
+
+.panel-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--surface-d);
+    padding: 5px 5px 5px 15px;
+}
+
+.panel-row .title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.panel-row .row {
+    display: flex;
+    gap: 10px;
+}
+
+.users {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 40rem;
+    padding-right: 5px;
+    overflow-y: auto;
+}
+
 .no-users {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    margin-top: 150px;
 }
 
 .center {
+    display: flex;
     justify-content: center;
 }
 
-.no-usesr-icon {
+.no-users-icon {
     font-size: 3.5rem;
     color: var(--orange-500);
 }
@@ -36,5 +86,6 @@
 .no-users-msg {
     font-size: 2.5rem;
     font-weight: 500;
+    text-align: center;
     color: var(--surface-d);
 }

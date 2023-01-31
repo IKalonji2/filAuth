@@ -62,7 +62,7 @@ export class ManageProfileComponent {
 
   navigateToAccess() {
     if(this.walletConnected) {
-      this.router.navigate(['/access']);
+      this.router.navigate(['/access'], { state: { profileId: this.organization.address }});
     } else {
       this.showConnectWalletDialog();
     }
