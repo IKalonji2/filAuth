@@ -1,6 +1,6 @@
 <p-menubar>
     <ng-template pTemplate="start">
-        <div class="header">
+        <div class="header" routerLink="/">
             <img src="../../../assets/icon.png">
             <div>Fil-Auth</div>
         </div>
@@ -13,7 +13,7 @@
 <div class="content" >
     <div class="title-row">
         <div class="title">Manage Access</div>
-        <button pButton type="button"(click)="openCreateRuleDialog()" class="p-button-raised p-button-outlined p-button-warning" label="Create Access Rule" icon="pi pi-unlock" iconPos="right"></button>
+        <button pButton type="button"(click)="openCreateRuleDialog()" class="p-button-raised p-button-outlined p-button-warning" label="Create Access Rule" icon="pi pi-unlock" iconPos="right" [disabled]="!profileId"></button>
     </div>
 
     <p-card header="Available Access Rules">
@@ -22,28 +22,68 @@
                 <span class="pi pi-exclamation-triangle no-rules-icon"></span>
             </div>
             <div class="center">
-                <span class="no-rules-msg">No Access Rule Found!</span>
+                <span class="no-rules-msg" *ngIf="profileId">No Access Rule Found!</span>
+                <span class="no-rules-msg" *ngIf="!profileId">No Profile Found, Go Back And Create Profile!</span>
             </div>
             <div class="center">
-                <button pButton type="button" class="p-button-raised p-button-warning" (click)="openCreateRuleDialog()" icon="pi pi-unlock" iconPos="right" label="Create Access Rule"></button>
+                <button pButton type="button" class="p-button-raised p-button-warning" (click)="openCreateRuleDialog()" icon="pi pi-unlock" iconPos="right" label="Create Access Rule" [disabled]="!profileId"></button>
             </div>
         </div>
 
         <div class="rules" *ngIf="accessRules.length > 0">
             <div class="panel-row" *ngFor="let rule of accessRules">
-                <div class="title">- Main Website</div>
-                <div class="row">
-                    <button pButton type="button"(click)="openRemoveDialog()" class="p-button-sm p-button-text p-button-danger" pTooltip="Remove Access Rule" tooltipPosition="left" icon="pi pi-unlock" iconPos="right"></button>
-                    <button pButton type="button"(click)="openUpdateRuleDialog()" class="p-button-sm p-button-text p-button-warning" pTooltip="Update Access Rule" tooltipPosition="left" icon="pi pi-pencil" iconPos="right"></button>
-                    <button pButton type="button"(click)="navigateToUsers()" class="p-button-sm p-button-text p-button-info" pTooltip="Manage User" tooltipPosition="left" icon="pi pi-users" iconPos="right"></button>
+                <div class="title">{{ rule.description ? rule.description : "Access Rule" }} <i>(Links: {{ rule.links.length }})</i></div>
+                <div class="actions">
+                    <button pButton type="button"(click)="openRemoveDialog(rule.uuid)" class="p-button-text p-button-danger" pTooltip="Remove Access Rule" tooltipPosition="left" icon="pi pi-trash" iconPos="right"></button>
+                    <button pButton type="button"(click)="openUpdateRuleDialog(rule.uuid)" class="p-button-text p-button-warning" pTooltip="Update Access Rule" tooltipPosition="left" icon="pi pi-pencil" iconPos="right"></button>
+                    <button pButton type="button"(click)="navigateToUsers(rule.uuid)" class="p-button-text p-button-info" pTooltip="Manage User" tooltipPosition="left" icon="pi pi-users" iconPos="right"></button>
                 </div>
             </div>
         </div>
     </p-card>
 </div>
 
-<p-dialog header="Create Access Rule" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayCreateRule" [maximizable]="true" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
-    Content
+<p-dialog header="New Access Rule" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayCreateRule" [maximizable]="false" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+    <div class="row">
+        <span class="span p-input-icon-left">
+            <i class="pi pi-lock"></i>
+            <input type="text" [(ngModel)]="accessRule.description" pInputText placeholder="Description" pTooltip="Description" tooltipPosition="bottom">
+        </span>
+    </div>
+
+    <div class="row">
+        <div class="p-inputgroup">
+            <span class="span p-input-icon-left">
+                <i class="pi pi-link"></i>
+                <input type="text" [(ngModel)]="link.url" pInputText placeholder="Link" pTooltip="Link" tooltipPosition="bottom">
+            </span>
+            
+            <span class="p-inputgroup-addon">
+                <p-checkbox [(ngModel)]="link.read" [binary]="true" pTooltip="Allow Read"></p-checkbox>
+            </span>
+
+            <span class="p-inputgroup-addon">
+                <p-checkbox [(ngModel)]="link.write" [binary]="true" pTooltip="Allow Write"></p-checkbox>
+            </span>
+        </div>
+        <button pButton type="button" (click)="createLink()" class="p-button-success p-button-outlined" pTooltip="Add Link" icon="pi pi-plus" iconPos="right"></button>
+    </div>
+
+    <div class="row">
+        <p-card header="Links">
+            <div class="links">
+                <div class="link" *ngFor="let link of accessRule.links">
+                    <a>{{ link.url }}</a>
+                    <div class="actions">
+                        <button pButton type="button" class="p-button-sm p-button-text p-button-info" icon="pi pi-eye" pTooltip="Allow Read" *ngIf="link.read"></button>
+                        <button pButton type="button" class="p-button-sm p-button-text p-button-warning" icon="pi pi-pencil" pTooltip="Allow Write" *ngIf="link.write"></button>
+                        <button pButton type="button" (click)="discardLink(link.uuid)" class="p-button-sm p-button-text p-button-danger" icon="pi pi-times-circle" pTooltip="Remove Link"></button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeCreateRuleDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>
@@ -52,12 +92,52 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Update Access Rule" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayUpdateRule" [maximizable]="true" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
-    Content
+<p-dialog header="Update Access Rule" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayUpdateRule" [maximizable]="false" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+    
+    <div class="row">
+        <span class="span p-input-icon-left">
+            <i class="pi pi-lock"></i>
+            <input type="text" [(ngModel)]="accessRule.description" pInputText placeholder="Description" pTooltip="Description" tooltipPosition="bottom">
+        </span>
+    </div>
+
+    <div class="row">
+        <div class="p-inputgroup">
+            <span class="span p-input-icon-left">
+                <i class="pi pi-link"></i>
+                <input type="text" [(ngModel)]="link.url" pInputText placeholder="Link" pTooltip="Link" tooltipPosition="bottom">
+            </span>
+            
+            <span class="p-inputgroup-addon">
+                <p-checkbox [(ngModel)]="link.read" [binary]="true" pTooltip="Allow Read"></p-checkbox>
+            </span>
+
+            <span class="p-inputgroup-addon">
+                <p-checkbox [(ngModel)]="link.write" [binary]="true" pTooltip="Allow Write"></p-checkbox>
+            </span>
+        </div>
+        <button pButton type="button" (click)="createLink()" class="p-button-success p-button-outlined" pTooltip="Add Link" icon="pi pi-plus" iconPos="right"></button>
+    </div>
+
+    <div class="row">
+        <p-card header="Links">
+            <div class="links">
+                <div class="link" *ngFor="let link of accessRule.links">
+                    <a>{{ link.url }}</a>
+                    <div class="actions">
+                        <button pButton type="button" class="p-button-sm p-button-text p-button-info" icon="pi pi-eye" pTooltip="Allow Read" *ngIf="link.read"></button>
+                        <button pButton type="button" class="p-button-sm p-button-text p-button-warning" icon="pi pi-pencil" pTooltip="Allow Write" *ngIf="link.write"></button>
+                        <button pButton type="button" (click)="discardLink(link.uuid)" class="p-button-sm p-button-text p-button-danger" icon="pi pi-times-circle" pTooltip="Remove Link"></button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeUpdateRuleDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>
-            <button pButton type="button" class="p-button-outlined p-button-success" label="Create" icon="pi pi-check" iconPos="right"></button>
+            <button pButton type="button" (click)="updateAccessRule()" class="p-button-sm p-button-outlined p-button-success" label="Update" icon="pi pi-check" iconPos="right"></button>
         </div>
     </ng-template>
 </p-dialog>
@@ -67,7 +147,7 @@
     <ng-template pTemplate="footer">
         <div class="dialog-button">
             <button pButton type="button" (click)="closeRemoveDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>
-            <button pButton type="button" class="p-button-outlined p-button-success" label="Confirm" icon="pi pi-check" iconPos="right"></button>
+            <button pButton type="button" (click)="removeAccessRule()" class="p-button-outlined p-button-success" label="Confirm" icon="pi pi-check" iconPos="right"></button>
         </div>
     </ng-template>
 </p-dialog>

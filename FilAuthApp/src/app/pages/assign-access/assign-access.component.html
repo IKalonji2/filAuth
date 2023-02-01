@@ -1,6 +1,6 @@
 <p-menubar>
     <ng-template pTemplate="start">
-        <div class="header">
+        <div class="header" routerLink="/">
             <img src="../../../assets/icon.png">
             <div>Fil-Auth</div>
         </div>
@@ -9,3 +9,68 @@
         <button pButton type="button" class="p-button-rounded p-button-outlined" icon="pi pi-user" pTooltip="Connected" tooltipPosition="left"></button>
     </ng-template>
 </p-menubar>
+
+<div class="content" >
+    <div class="title-row">
+        <div class="title">Manage Users</div>
+        <button pButton type="button"(click)="openAddUserDialog()" class="p-button-raised p-button-outlined p-button-success" label="Add New User" icon="pi pi-user-plus" iconPos="right" [disabled]="!accessRuleId"></button>
+    </div>
+
+    <p-card header="Assigned Users">
+        <div class="no-users" *ngIf="!(users.length > 0)">
+            <div class="center">
+                <span class="pi pi-exclamation-triangle no-users-icon"></span>
+            </div>
+            <div class="center">
+                <span class="no-users-msg" *ngIf="!accessRuleId">No Access Rule, Go Back And Setup Your Access Rules!</span>
+                <span class="no-users-msg" *ngIf="accessRuleId">No Assigned Users Yet!</span>
+            </div>
+            <div class="center">
+                <button pButton type="button" class="p-button-raised p-button-success" (click)="openAddUserDialog()" icon="pi pi-user-plus" iconPos="right" label="Add New User" [disabled]="!accessRuleId"></button>
+            </div>
+        </div>
+
+        <div class="details" *ngIf="users.length > 0">
+            <div class="panel-row" *ngFor="let user of users">
+                <div class="title" [pTooltip]="'Name: ' + user.fullName + '\nAddress: ' + user.uuid">{{ user.fullName ? user.fullName : user.address }}</div>
+                <div class="row">
+                    <button pButton type="button" (click)="openRemoveUserDialog(user.uuid)" class="p-button-sm p-button-text p-button-danger" pTooltip="Remove User" tooltipPosition="left" icon="pi pi-trash" iconPos="right"></button>
+                </div>
+            </div>
+        </div>
+    </p-card>
+</div>
+
+<p-dialog header="New User" [breakpoints]="{'1280': '30vw', '960px': '50vw', '640px': '95vw'}" [(visible)]="displayAddUser" [maximizable]="false" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+    <div class="details">
+        <span class="p-input-icon-left">
+            <i class="pi pi-briefcase"></i>
+            <input type="text" pInputText placeholder="Employee Number" [(ngModel)]="user.number" pTooltip="Employee Number" tooltipPosition="bottom">
+        </span>
+        <span class="p-input-icon-left">
+            <i class="pi pi-id-card"></i>
+            <input type="text" pInputText placeholder="Full Name" [(ngModel)]="user.fullName" pTooltip="Full Name" tooltipPosition="bottom">
+        </span>
+        <span class="p-input-icon-left">
+            <i class="pi pi-wallet"></i>
+            <input type="text" pInputText placeholder="Wallet Address" [(ngModel)]="user.address" pTooltip="Wallet Address" tooltipPosition="bottom">
+        </span>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="dialog-button">
+            <button pButton type="button" (click)="closeAddUserDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>
+            <button pButton type="button" (click)="addUser()" class="p-button-outlined p-button-success" label="Add User" icon="pi pi-plus" iconPos="right"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Remove User" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayRemoveUser" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+    Are you sure you want to remove the User?
+    <ng-template pTemplate="footer">
+        <div class="dialog-button">
+            <button pButton type="button" (click)="closeRemoveUserDialog()" class="p-button-outlined p-button-warning" label="Cancel" icon="pi pi-times" iconPos="right" autofocus></button>
+            <button pButton type="button" (click)="removeUser()" class="p-button-outlined p-button-success" label="Confirm" icon="pi pi-check" iconPos="right"></button>
+        </div>
+    </ng-template>
+</p-dialog>

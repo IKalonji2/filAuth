@@ -10,6 +10,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { AccordionModule } from 'primeng/accordion';
 import { FormsModule } from '@angular/forms';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,7 +39,8 @@ import { AssignAccessComponent } from './pages/assign-access/assign-access.compo
     TooltipModule,
     InputTextModule,
     AccordionModule,
-    FormsModule
+    FormsModule,
+    CheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

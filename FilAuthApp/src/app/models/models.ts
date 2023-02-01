@@ -28,8 +28,9 @@ class Link {
 }
 
 class AccessRule {
+    address: string = "";
     uuid: string = "";
-    discription: string = "";
+    description: string = "";
     links: Link[] = [];
 
     constructor() {
@@ -37,6 +38,17 @@ class AccessRule {
     }
 }
 
+class User {
+    address: string = "";
+    uuid: string = "";
+    number: string = "";
+    fullName: string = "";
+
+    constructor() {
+        this.uuid = uuid4();
+    }
+}
+
 export {
-    Statistics, Organization, Link, AccessRule
+    Statistics, Organization, Link, AccessRule, User
 }
