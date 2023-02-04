@@ -1,7 +1,7 @@
 <div class="content" >
     <div class="title-row">
         <div class="title">Assign Access</div>
-        <button pButton type="button"(click)="openAddUserDialog()" class="p-button-raised p-button-outlined p-button-success" label="Add New User" icon="pi pi-user-plus" iconPos="right" [disabled]="!accessRuleId"></button>
+        <button pButton type="button"(click)="openAddUserDialog()" class="p-button-raised p-button-outlined p-button-success" label="Add New User" icon="pi pi-user-plus" iconPos="right"></button>
     </div>
 
     <p-card header="Assigned Users">
@@ -10,19 +10,19 @@
                 <span class="pi pi-exclamation-triangle no-users-icon"></span>
             </div>
             <div class="center">
-                <span class="no-users-msg" *ngIf="!accessRuleId">No Access Rule, Go Back And Setup Your Access Rules!</span>
-                <span class="no-users-msg" *ngIf="accessRuleId">No Assigned Users Yet!</span>
+                <span class="no-users-msg" *ngIf="!accessRuleName">No Access Rule, Go Back And Setup Your Access Rules!</span>
+                <span class="no-users-msg" *ngIf="accessRuleName">No Assigned Users Yet!</span>
             </div>
             <div class="center">
-                <button pButton type="button" class="p-button-raised p-button-success" (click)="openAddUserDialog()" icon="pi pi-user-plus" iconPos="right" label="Add New User" [disabled]="!accessRuleId"></button>
+                <button pButton type="button" class="p-button-raised p-button-success" (click)="openAddUserDialog()" icon="pi pi-user-plus" iconPos="right" label="Add New User"></button>
             </div>
         </div>
 
         <div class="details" *ngIf="users.length > 0">
             <div class="panel-row" *ngFor="let user of users">
-                <div class="title" [pTooltip]="'Name: ' + user.fullName + '\nAddress: ' + user.uuid">{{ user.fullName ? user.fullName : user.address }}</div>
+                <div class="title" [pTooltip]="user">{{ user }}</div>
                 <div class="row">
-                    <button pButton type="button" (click)="openRemoveUserDialog(user.uuid)" class="p-button-sm p-button-text p-button-danger" pTooltip="Remove User" tooltipPosition="left" icon="pi pi-trash" iconPos="right"></button>
+                    <button pButton type="button" (click)="openRemoveUserDialog(user)" class="p-button-sm p-button-text p-button-danger" pTooltip="Remove User" tooltipPosition="left" icon="pi pi-trash" iconPos="right"></button>
                 </div>
             </div>
         </div>
@@ -31,17 +31,17 @@
 
 <p-dialog header="New User" [breakpoints]="{'1280': '30vw', '960px': '50vw', '640px': '95vw'}" [(visible)]="displayAddUser" [maximizable]="false" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
     <div class="details">
-        <span class="p-input-icon-left">
+        <!--<span class="p-input-icon-left">
             <i class="pi pi-briefcase"></i>
             <input type="text" pInputText placeholder="Employee Number" [(ngModel)]="user.number" pTooltip="Employee Number" tooltipPosition="bottom">
         </span>
         <span class="p-input-icon-left">
             <i class="pi pi-id-card"></i>
             <input type="text" pInputText placeholder="Full Name" [(ngModel)]="user.fullName" pTooltip="Full Name" tooltipPosition="bottom">
-        </span>
+        </span>-->
         <span class="p-input-icon-left">
             <i class="pi pi-wallet"></i>
-            <input type="text" pInputText placeholder="Wallet Address" [(ngModel)]="user.address" pTooltip="Wallet Address" tooltipPosition="bottom">
+            <input type="text" pInputText placeholder="User Wallet Address" [(ngModel)]="user.address" pTooltip="Wallet Address" tooltipPosition="bottom">
         </span>
     </div>
 

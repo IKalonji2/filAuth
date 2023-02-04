@@ -47,7 +47,6 @@ export class MainComponent {
   }
 
   handleConnectionChange() {
-    console.log("Hit")
     this.router.navigate(["main/profile"]);
   }
 
@@ -68,9 +67,5 @@ export class MainComponent {
       this.message = this.messages[0];
     }
     this.displayConnectWalletDialog = true;
-  }
-
-  handleAppDisconnected() {
-
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/models';
+import { AccessControlService } from 'src/app/services/contract.service';
 
 @Component({
   selector: 'app-assign-access',
@@ -12,66 +13,52 @@ export class AssignAccessComponent {
   displayAddUser: boolean = false;
   displayRemoveUser: boolean = false;
   displayConnectWalletDialog: boolean = false;
-  
-  walletConnected: boolean = false;
 
-  users: User[] = [];
+  users: string[] = [];
   user: User = new User();
 
-  currentUserUUID: string = "";
+  accessRuleName: any = "";
 
-  accessRuleId: any = "";
-
-  constructor(private router: Router) {
+  constructor(private router: Router, private constractService: AccessControlService) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if(state) {
-      this.walletConnected = state['walletConnected'];
-      if(!this.walletConnected) {
-        this.displayConnectWalletDialog = true;
-      }
-      
-      this.accessRuleId = state['accessRuleId'];
-      if(this.accessRuleId){
-        this.loadUsers(this.accessRuleId);
+      this.accessRuleName = state['accessRuleName'];
+      if(this.accessRuleName){
+        this.getUsers();
       }
     }
   }
 
-  loadUsers(accessRuleId: string) {
-    //Service call
+  getUsers = async () => {
+    await this.constractService.getUsers(this.accessRuleName).then((data: any) => this.users = data).catch((e: any) => console.log(e.message));
   }
 
-  addUser() {
-    this.users.push(this.user);
+  addUser = async () => {
+    await this.constractService.assignAccess(this.user.address, this.accessRuleName).then(() => this.getUsers());
     this.closeAddUserDialog();
   }
 
-  removeUser() {
-    let index = this.users.findIndex(u => u.uuid === this.currentUserUUID);
-    if(index > -1) {
-      this.users.splice(index, 1);
-    }
+  removeUser = async () => {
+    await this.constractService.removeAccess(this.user.address, this.accessRuleName).then(() => this.getUsers()).catch((e: any) => console.log(e.message));
     this.closeRemoveUserDialog();
   }
 
   openAddUserDialog() {
-    this.displayAddUser = true;
     this.user = new User();
+    this.displayAddUser = true;
   }
 
   closeAddUserDialog() {
     this.displayAddUser = false;
-    this.user = new User();
   }
 
-  openRemoveUserDialog(uuid: string) {
+  openRemoveUserDialog(address: string) {
     this.displayRemoveUser = true;
-    this.currentUserUUID = uuid;
+    this.user.address = address;
   }
 
   closeRemoveUserDialog() {
     this.displayRemoveUser = false;
-    this.currentUserUUID = "";
   }
 
 }

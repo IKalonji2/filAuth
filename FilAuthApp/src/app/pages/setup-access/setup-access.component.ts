@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccessRule, Link } from 'src/app/models/models';
+import { AccessControlService } from 'src/app/services/contract.service';
 
 @Component({
   selector: 'app-setup-access',
@@ -8,20 +9,20 @@ import { AccessRule, Link } from 'src/app/models/models';
   styleUrls: ['./setup-access.component.css']
 })
 export class SetupAccessComponent {
-  accessRules: AccessRule[] = [];
+  accessRules: string[] = [];
   accessRule: AccessRule = new AccessRule();
   link: Link = new Link();
 
+  provider: any;
   address: string = "";
 
   currentRuleUUID: string = "";
 
-  displayConnectWalletDialog: boolean = false;
   displayCreateRule: boolean = false;
   displayUpdateRule: boolean = false;
   displayRemoveRule: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private contractService: AccessControlService) {
     this.getAddress();
   }
 
@@ -29,30 +30,18 @@ export class SetupAccessComponent {
     this.address = "dummy";
   }
 
-  getAccessRules() {
-
+  getAccessRules = async () => {
+    await this.contractService.getAccessLevels().then((data => this.accessRules = data));
   }
 
-  createAccessRule() {
-    this.accessRules.push(this.accessRule);
+  createAccessRule = async () => {
+    await this.contractService.createAccessLevel(this.accessRule.description).then(() => {
+      this.getAccessRules();
+    }).catch((e:any) => {
+      console.log(e.message);
+    });
+    this.accessRules.push(this.accessRule.description);
     this.closeCreateRuleDialog();
-    this.accessRule = new AccessRule();
-  }
-
-  removeAccessRule() {
-    let index = this.accessRules.findIndex(ar => ar.uuid === this.currentRuleUUID);
-    if(index > -1) {
-      this.accessRules.splice(index, 1);
-    }
-    this.closeRemoveDialog();
-  }
-
-  updateAccessRule() {
-    let index = this.accessRules.findIndex(ar => ar.uuid === this.currentRuleUUID);
-    if(index > -1) {
-      this.accessRules[index] = this.accessRule;
-    }
-    this.closeUpdateRuleDialog();
   }
 
   createLink() {
@@ -67,28 +56,14 @@ export class SetupAccessComponent {
     }
   }
 
-  navigateToUsers(uuid: string) {
-    this.router.navigate(["main/assign"], { state: { accessRuleId: uuid }});
+  navigateToUsers(rule: string) {
+    this.router.navigate(["main/assign"], { state: { accessRuleName: rule }});
   }
 
   openCreateRuleDialog() {
     this.accessRule = new AccessRule();
     this.link = new Link();
     this.displayCreateRule = true;
-  }
-
-  openUpdateRuleDialog(uuid: string) {
-    this.displayUpdateRule = true;
-    this.currentRuleUUID = uuid;
-    let index = this.accessRules.findIndex(ar => ar.uuid === uuid);
-    if(index > -1) {
-      this.accessRule = this.accessRules[index];
-    }
-  }
-
-  openRemoveDialog(uuid: string) {
-    this.displayRemoveRule = true;
-    this.currentRuleUUID = uuid;
   }
 
   closeCreateRuleDialog() {

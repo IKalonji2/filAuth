@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ethers } from 'ethers';
 import { abi } from './../contracts/ABI/FilAuth';
+import  * as abiJson from '../contracts/ABI/FilAuth';
 
 @Injectable({
   providedIn: 'root'
@@ -15,44 +16,56 @@ export class AccessControlService {
 
     // Connect to the contract using the ABI
     this.contract = new ethers.Contract(
-      '<contractAddress>',
+      '0xb281CD762341eCeC4fd601439C0c3901B2a25a2',
       abi,
       this.provider.getSigner()
     );
   }
 
   async registerOrganization(orgName: string) {
-    const fee = ethers.BigNumber.from(1000);
+    const fee = ethers.BigNumber.from(10000);
     // Call the registerOrganization function
-    return this.contract.registerOrganization(orgName, { value: fee });
+    return await this.contract.registerOrganization(orgName, { value: fee });
   }
 
   async createAccessLevel(accessLevel: string) {
     // Call the createAccessLevel function
-    return this.contract.createAccessLevel(accessLevel);
+    return await this.contract.createAccessLevel(accessLevel);
   }
 
-  async assignAccess(users: string[], accessLevel: string) {
+  async assignAccess(user: string, accessLevel: string) {
     // Call the assignAccess function
-    return this.contract.assignAccess(users, accessLevel);
+    return await this.contract.assignAccessToUser(user, accessLevel);
   }
 
-  async removeAccess(tokenIds: number[], accessLevel: string) {
+  async removeAccess(user: string, accessLevel: string) {
     // Call the removeAccess function
-    return this.contract.removeAccess(tokenIds, accessLevel);
+    return await this.contract.removeAccess(user, accessLevel);
   }
 
-  async getAccessUsers(accessLevel: string) {
+  async isOrgRegistered(orgAddress: string) {
+    return false;// await this.contract.isOrgRegistered(orgAddress);
+  }
+
+  async getNumberOfUsers() {
+    return await this.contract.returnNumberOfUsers();
+  }
+
+  async getNumberOfAccessRules() {
+    return await this.contract.returnNumberOfAccessRules();
+  }
+
+  async getUsers(accessLevelName: string) {
     // Call the getAccessLevelsList function
-    return this.contract.getAccessLevelsList(accessLevel);
+    return await this.contract.getUsers(accessLevelName);
   }
 
-  async getAllAccessUsersByContract(contractAddr: string) {
-    // Call the getAccessUsersByContract function
-    return this.contract.getAccessUsersByContract(contractAddr);
+  async getAccessLevels() {
+    // Call the getAccessLevelsList function
+    return await this.contract.getAccessLevels();
   }
 
-  // Listen to the LogOrganizationRegistered event
+  /*/ Listen to the LogOrganizationRegistered event
   listenToLogOrganizationRegistered() {
     return this.contract.on('LogOrganizationRegistered', (org, name) => {
       console.log(`Organization registered: ${org} - ${name}`);
@@ -78,7 +91,7 @@ export class AccessControlService {
     return this.contract.on('LogAccessRevoked', (org, user, accessLevel) => {
       console.log(`Access revoked: ${org} - ${user} - ${accessLevel}`);
     });
-  }
+  }*/
 }
 
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Organization } from 'src/app/models/models';
 import { ethers } from 'ethers';
 import { ProfileService } from 'src/app/services/profile/profile.service';
+import { AccessControlService } from 'src/app/services/contract.service';
 
 @Component({
   selector: 'app-manage-profile',
@@ -11,9 +12,13 @@ import { ProfileService } from 'src/app/services/profile/profile.service';
 })
 export class ManageProfileComponent {
 
-  organization: Organization;
+  organization?: Organization;
+  organizationName: string = "";
 
-  profileConnected: boolean = false;
+  noAccessRules: number = 0;
+  noUsers: number = 0;
+
+  connected: boolean = true;
 
   displayCreateProfileDialog: boolean = false;
   displayUpdateProfileDialog: boolean = false;
@@ -21,31 +26,40 @@ export class ManageProfileComponent {
 
   disableEdit: boolean = true;
 
-  constructor(private router: Router, private profileService: ProfileService) {
-    this.organization = new Organization("");
+  provider: any;
+  address: string = "";
+
+  constructor(private router: Router, private contractService: AccessControlService) {
+    this.provider = new ethers.providers.Web3Provider(window.ethereum, "any");
   }
 
   ngOnInit() {
-    this.connectToProfile();
+    this.connectToOrganization();
   }
 
-  connectToProfile() {
-    this.getOrganization();
-    if(this.organization?.address) {
-      this.profileConnected = true;
-    } else {
-      this.organization = new Organization("");
-      this.profileConnected = false;
-    }
+  connectToOrganization = async () => {
+    await this.provider.send("eth_requestAccounts", []).then((data: any) => {
+      this.address = data[0];
+      this.contractService.isOrgRegistered(this.address).then(data => this.connected = data);
+      this.getStatistics();
+    }).catch((e: any) => {
+      this.connected = false;
+    });
   }
 
-  getOrganization = async () => {
-    await this.profileService.get("dummy").then(data => this.organization = data.data)
+  getStatistics = async () => {
+    await this.contractService.getAccessLevels().then((data) => this.noAccessRules = data).catch(() => this.noAccessRules = 0);
+    await this.contractService.getAccessLevels().then((data) => this.noUsers = data).catch(() => this.noUsers = 0);
   }
 
-  createOrganization() {
+  createOrganization = async () => {
+    await this.contractService.registerOrganization(this.organizationName).then(() => {
+      this.connectToOrganization();
+    }).catch((e:any) => {
+      console.log(e.message);
+    });
     this.closeCreateProfileDialog();
-    this.connectToProfile();
+    this.connected = true;
   }
 
   updateOrganization() {
@@ -57,7 +71,7 @@ export class ManageProfileComponent {
     if(this.organization) {
       this.organization = new Organization("");
     }
-    this.connectToProfile();
+    this.connectToOrganization();
     this.closeRemoveProfileDialog();
   }
 

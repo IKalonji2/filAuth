@@ -20,11 +20,11 @@
 
         <div class="rules" *ngIf="accessRules.length > 0">
             <div class="panel-row" *ngFor="let rule of accessRules">
-                <div class="title">{{ rule.description ? rule.description : "Access Rule" }} <i>(Links: {{ rule.links.length }})</i></div>
+                <div class="title">{{ rule ? rule : "Access Rule" }}</div>
                 <div class="actions">
-                    <button pButton type="button"(click)="openRemoveDialog(rule.uuid)" class="p-button-text p-button-danger" pTooltip="Remove Access Rule" tooltipPosition="left" icon="pi pi-trash" iconPos="right"></button>
-                    <button pButton type="button"(click)="openUpdateRuleDialog(rule.uuid)" class="p-button-text p-button-warning" pTooltip="Update Access Rule" tooltipPosition="left" icon="pi pi-pencil" iconPos="right"></button>
-                    <button pButton type="button"(click)="navigateToUsers(rule.uuid)" class="p-button-text p-button-info" pTooltip="Manage User" tooltipPosition="left" icon="pi pi-users" iconPos="right"></button>
+                    <!--<button pButton type="button"(click)="openRemoveDialog(rule.uuid)" class="p-button-text p-button-danger" pTooltip="Remove Access Rule" tooltipPosition="left" icon="pi pi-trash" iconPos="right"></button>
+                    <button pButton type="button"(click)="openUpdateRuleDialog(rule.uuid)" class="p-button-text p-button-warning" pTooltip="Update Access Rule" tooltipPosition="left" icon="pi pi-pencil" iconPos="right"></button>-->
+                    <button pButton type="button"(click)="navigateToUsers(rule)" class="p-button-text p-button-info" pTooltip="Manage User" tooltipPosition="left" icon="pi pi-users" iconPos="right"></button>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Update Access Rule" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayUpdateRule" [maximizable]="false" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+<!--<p-dialog header="Update Access Rule" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayUpdateRule" [maximizable]="false" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
     
     <div class="row">
         <span class="span p-input-icon-left">
@@ -138,4 +138,4 @@
             <button pButton type="button" (click)="removeAccessRule()" class="p-button-outlined p-button-success" label="Confirm" icon="pi pi-check" iconPos="right"></button>
         </div>
     </ng-template>
-</p-dialog>
+</p-dialog>-->

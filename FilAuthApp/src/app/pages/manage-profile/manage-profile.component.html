@@ -1,10 +1,10 @@
 <div class="content" >
     <div class="title-row">
         <div class="title">Manage Organization</div>
-        <button pButton type="button" *ngIf="profileConnected" (click)="navigateToAccess()" class="p-button-raised p-button-outlined p-button-info" label="Manage Access" icon="pi pi-unlock" iconPos="right"></button>
+        <button pButton type="button" *ngIf="connected" (click)="navigateToAccess()" class="p-button-raised p-button-outlined p-button-info" label="Manage Access" icon="pi pi-unlock" iconPos="right"></button>
     </div>
 
-    <div class="no-profile" *ngIf="!profileConnected">
+    <div class="no-profile" *ngIf="!connected">
         <div class="row center">
             <span class="pi pi-exclamation-triangle no-profile-icon"></span>
         </div>
@@ -16,53 +16,33 @@
         </div>
     </div>
 
-    <div class="stats" *ngIf="profileConnected">
+    <div class="stats" *ngIf="connected">
         <p-card header="Systems Managed">
             <div class="row startend">
                 <div class="pi pi-chart-line icon blue-color"></div>
-                <div class="text">{{ organization.statistics.systems }}</div>
+                <div class="text">{{ organization }}</div>
             </div>
         </p-card>
         <p-card header="Access Rules">
             <div class="row startend">
                 <div class="pi pi-unlock icon orange-color"></div>
-                <div class="text">{{ organization.statistics.rules }}</div>
+                <div class="text">{{ noAccessRules }}</div>
             </div>
         </p-card>
         <p-card header="Users">
             <div class="row startend">
                 <div class="pi pi-users icon green-color"></div>
-                <div class="text">{{ organization.statistics.users }}</div>
+                <div class="text">{{ noUsers }}</div>
             </div>
         </p-card>
     </div>
 
-    <div *ngIf="profileConnected" class="row" style="justify-content: flex-end;">
+    <div *ngIf="connected" class="row" style="justify-content: flex-end;">
         <p-card header="Organization Details" style="max-width: 50%">
             <div class="details">
                 <span class="p-input-icon-left">
                     <i class="pi pi-briefcase"></i>
-                    <input type="text" pInputText placeholder="Organization" [(ngModel)]="organization.name" pTooltip="organization name" tooltipPosition="bottom" [disabled]="disableEdit">
-                </span>
-    
-                <span class="p-input-icon-left">
-                    <i class="pi pi-globe"></i>
-                    <input type="text" pInputText placeholder="Country" [(ngModel)]="organization.country" pTooltip="country" tooltipPosition="bottom" [disabled]="disableEdit">
-                </span>
-                
-                <span class="p-input-icon-left">
-                    <i class="pi pi-map"></i>
-                    <input type="text" pInputText placeholder="Provinve/State" [(ngModel)]="organization.province" pTooltip="privince/state" tooltipPosition="bottom" [disabled]="disableEdit">
-                </span>
-                
-                <span class="p-input-icon-left">
-                    <i class="pi pi-building"></i>
-                    <input type="text" pInputText placeholder="City" pTooltip="city" [(ngModel)]="organization.city" tooltipPosition="bottom" [disabled]="disableEdit">
-                </span>
-                
-                <span class="p-input-icon-left">
-                    <i class="pi pi-paperclip"></i>
-                    <input type="text" pInputText placeholder="Zip Code" pTooltip="zip code" [(ngModel)]="organization.zip" tooltipPosition="bottom" [disabled]="disableEdit">
+                    <input type="text" pInputText placeholder="Organization" [(ngModel)]="organizationName" pTooltip="organization name" tooltipPosition="bottom" [disabled]="disableEdit">
                 </span>
             </div>
             <ng-template pTemplate="footer">
@@ -80,27 +60,7 @@
     <div class="details">
         <span class="p-input-icon-left">
             <i class="pi pi-briefcase"></i>
-            <input type="text" pInputText placeholder="Organization" [(ngModel)]="organization.name" pTooltip="organization name" tooltipPosition="bottom">
-        </span>
-
-        <span class="p-input-icon-left">
-            <i class="pi pi-globe"></i>
-            <input type="text" pInputText placeholder="Country" [(ngModel)]="organization.country" pTooltip="country" tooltipPosition="bottom">
-        </span>
-        
-        <span class="p-input-icon-left">
-            <i class="pi pi-map"></i>
-            <input type="text" pInputText placeholder="Provinve/State" [(ngModel)]="organization.province" pTooltip="province/state" tooltipPosition="bottom">
-        </span>
-        
-        <span class="p-input-icon-left">
-            <i class="pi pi-building"></i>
-            <input type="text" pInputText placeholder="City" [(ngModel)]="organization.city" pTooltip="city" tooltipPosition="bottom">
-        </span>
-        
-        <span class="p-input-icon-left">
-            <i class="pi pi-paperclip"></i>
-            <input type="text" pInputText placeholder="Zip Code" [(ngModel)]="organization.zip" pTooltip="zip code" tooltipPosition="bottom">
+            <input type="text" pInputText placeholder="Organization" [(ngModel)]="organizationName" pTooltip="organization name" tooltipPosition="bottom">
         </span>
     </div>
 
