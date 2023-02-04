@@ -14,6 +14,10 @@ class Organization {
     city : string = "";
     zip : string = "";
     statistics : Statistics = new Statistics();
+
+    constructor(address: string) {
+        this.address = address;
+    }
 }
 
 class Link {
@@ -49,6 +53,26 @@ class User {
     }
 }
 
+class Response {
+    code: ResponseStatus;
+    data: any;
+
+    constructor(code: ResponseStatus, data: any) {
+        this.code = code;
+        this.data = data;
+    }
+}
+
+enum ResponseStatus {
+    FOUND,
+    CREATED,
+    DELETED,
+    UPDATED,
+    SUCCESS,
+    ERROR,
+    NOTFOUND
+}
+
 export {
-    Statistics, Organization, Link, AccessRule, User
+    Statistics, Organization, Link, AccessRule, User, Response, ResponseStatus
 }

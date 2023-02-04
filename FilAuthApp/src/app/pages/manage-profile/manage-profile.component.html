@@ -12,7 +12,7 @@
             <span class="no-profile-msg">No Organization Profile Found!</span>
         </div>
         <div class="row center">
-            <button pButton type="button" class="p-button-raised" (click)="showCreateProfileDialog()" icon="pi pi-briefcase" iconPos="right" label="Create Profile" [disabled]="!walletConnected"></button>
+            <button pButton type="button" class="p-button-raised" (click)="showCreateProfileDialog()" icon="pi pi-briefcase" iconPos="right" label="Create Profile"></button>
         </div>
     </div>
 
@@ -38,7 +38,7 @@
     </div>
 
     <div *ngIf="profileConnected" class="row" style="justify-content: flex-end;">
-        <p-card header="Organization Details" style="width: 50%">
+        <p-card header="Organization Details" style="max-width: 50%">
             <div class="details">
                 <span class="p-input-icon-left">
                     <i class="pi pi-briefcase"></i>

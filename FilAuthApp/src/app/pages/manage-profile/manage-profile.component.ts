@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Organization } from 'src/app/models/models';
 import { ethers } from 'ethers';
+import { ProfileService } from 'src/app/services/profile/profile.service';
 
 @Component({
   selector: 'app-manage-profile',
@@ -13,8 +14,6 @@ export class ManageProfileComponent {
   organization: Organization;
 
   profileConnected: boolean = false;
-  displayConnectWalletDialog: boolean = false;
-  walletConnected: boolean = true;
 
   displayCreateProfileDialog: boolean = false;
   displayUpdateProfileDialog: boolean = false;
@@ -22,46 +21,29 @@ export class ManageProfileComponent {
 
   disableEdit: boolean = true;
 
-  constructor(private router: Router) {
-    this.organization = this.getOrganizationDetails();
+  constructor(private router: Router, private profileService: ProfileService) {
+    this.organization = new Organization("");
   }
 
-
-  getOrganizationDetails() {
-    return {
-      address: "",
-      name : "Fil Auth Company Pty Ltd.",
-      country : "South Africa",
-      province : "Gauteng",
-      city : "Johannesburg",
-      zip : "2092",
-      statistics : {
-        systems : 26,
-        rules : 79,
-        users : 1188
-      }
-    };
-  }
-
-  navigateToAccess() {
-    if(this.walletConnected) {
-      this.router.navigate(['main/access'], { state: { profileId: this.organization.address, walletConnected: this.walletConnected }});
-    } else {
-      this.showConnectWalletDialog();
-    }
+  ngOnInit() {
+    this.connectToProfile();
   }
 
   connectToProfile() {
+    this.getOrganization();
     if(this.organization?.address) {
       this.profileConnected = true;
     } else {
-      this.organization = new Organization();
+      this.organization = new Organization("");
       this.profileConnected = false;
     }
   }
 
+  getOrganization = async () => {
+    await this.profileService.get("dummy").then(data => this.organization = data.data)
+  }
+
   createOrganization() {
-    this.organization.address = "HJF84FJHV5RKJV8RH4654E";
     this.closeCreateProfileDialog();
     this.connectToProfile();
   }
@@ -73,10 +55,14 @@ export class ManageProfileComponent {
 
   removeOrganization() {
     if(this.organization) {
-      this.organization = new Organization();
+      this.organization = new Organization("");
     }
     this.connectToProfile();
     this.closeRemoveProfileDialog();
+  }
+
+  navigateToAccess() {
+    this.router.navigate(['main/access']);
   }
 
   showCreateProfileDialog() {
@@ -101,13 +87,5 @@ export class ManageProfileComponent {
 
   closeRemoveProfileDialog() {
     this.displayRemoveProfileDialog = false;
-  }
-
-  showConnectWalletDialog() {
-    this.displayConnectWalletDialog = true;
-  }
-
-  closeConnectWalletDialog() {
-    this.displayConnectWalletDialog = false;
   }
 }
