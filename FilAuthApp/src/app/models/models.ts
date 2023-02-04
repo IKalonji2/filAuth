@@ -19,8 +19,8 @@ class Organization {
 class Link {
     uuid: string = "";
     url: string = "";
-    read: boolean = true;
-    write: boolean = true;
+    read: boolean = false;
+    write: boolean = false;
 
     constructor() {
         this.uuid = uuid4();

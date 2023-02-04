@@ -1,18 +1,3 @@
-<p-menubar>
-    <ng-template pTemplate="start">
-        <div class="header" routerLink="/">
-            <img src="../../../assets/favicon.png">
-            <div>Fil-Auth</div>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="end">
-        <div class="row gap-10">
-            <button *ngIf="!profileConnected" pButton type="button" class="p-button-raised" (click)="showCreateProfileDialog()" icon="pi pi-user-plus" iconPos="right" label="Create Profile"></button>
-            <button *ngIf="profileConnected" pButton type="button" class="p-button-rounded p-button-outlined" icon="pi pi-user" pTooltip="Connected" tooltipPosition="left"></button>
-        </div>
-    </ng-template>
-</p-menubar>
-
 <div class="content" >
     <div class="title-row">
         <div class="title">Manage Organization</div>
@@ -27,7 +12,7 @@
             <span class="no-profile-msg">No Organization Profile Found!</span>
         </div>
         <div class="row center">
-            <button pButton type="button" class="p-button-raised" (click)="showCreateProfileDialog()" icon="pi pi-user-plus" iconPos="right" label="Create Profile"></button>
+            <button pButton type="button" class="p-button-raised" (click)="showCreateProfileDialog()" icon="pi pi-briefcase" iconPos="right" label="Create Profile" [disabled]="!walletConnected"></button>
         </div>
     </div>
 
@@ -90,17 +75,6 @@
         </p-card>
     </div>
 </div>
-
-<p-dialog [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayConnectWalletDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
-    <ng-template pTemplate="header">
-        <div>
-            <i class="pi pi-exclamation-triangle" [ngStyle]="{color:'var(--orange-500)'}"></i>
-            <b> Wallet Not Connected</b>
-        </div>
-    </ng-template>
-
-    {{ connectWalletMessage }}
-</p-dialog>
 
 <p-dialog header="Create Profile" [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayCreateProfileDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
     <div class="details">

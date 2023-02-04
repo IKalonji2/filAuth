@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Organization } from 'src/app/models/models';
+import { ethers } from 'ethers';
 
 @Component({
   selector: 'app-manage-profile',
@@ -13,8 +14,7 @@ export class ManageProfileComponent {
 
   profileConnected: boolean = false;
   displayConnectWalletDialog: boolean = false;
-  walletConnected: boolean = false;
-  connectWalletMessage: string = "Please make sure you are connected to your wallet before you continue...";
+  walletConnected: boolean = true;
 
   displayCreateProfileDialog: boolean = false;
   displayUpdateProfileDialog: boolean = false;
@@ -26,43 +26,26 @@ export class ManageProfileComponent {
     this.organization = this.getOrganizationDetails();
   }
 
-  ngOnInit() {
-    this.connectToWallet();
-
-    if(!this.walletConnected) {
-      this.showConnectWalletDialog();
-    } else {
-      this.connectToProfile();
-    }
-  }
 
   getOrganizationDetails() {
     return {
-      address: "HJF84FJHV5RKJV8RH4654E",
+      address: "",
       name : "Fil Auth Company Pty Ltd.",
       country : "South Africa",
       province : "Gauteng",
       city : "Johannesburg",
       zip : "2092",
-      statistics : this.getOrganizationStatistics()
+      statistics : {
+        systems : 26,
+        rules : 79,
+        users : 1188
+      }
     };
-  }
-
-  getOrganizationStatistics() {
-    return {
-      systems : 26,
-      rules : 79,
-      users : 1188
-    };
-  }
-
-  connectToWallet() {
-    this.walletConnected = true;
   }
 
   navigateToAccess() {
     if(this.walletConnected) {
-      this.router.navigate(['/access'], { state: { profileId: this.organization.address }});
+      this.router.navigate(['main/access'], { state: { profileId: this.organization.address, walletConnected: this.walletConnected }});
     } else {
       this.showConnectWalletDialog();
     }

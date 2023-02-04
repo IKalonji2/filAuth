@@ -11,11 +11,14 @@ export class SetupAccessComponent {
   accessRules: AccessRule[] = [];
   accessRule: AccessRule = new AccessRule();
   link: Link = new Link();
+  
+  walletConnected: boolean = false;
 
   profileId: string = "";
 
   currentRuleUUID: string = "";
 
+  displayConnectWalletDialog: boolean = false;
   displayCreateRule: boolean = false;
   displayUpdateRule: boolean = false;
   displayRemoveRule: boolean = false;
@@ -23,6 +26,11 @@ export class SetupAccessComponent {
   constructor(private router: Router) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if(state) {
+      this.walletConnected = state['walletConnected'];
+      if(!this.walletConnected) {
+        this.displayConnectWalletDialog = true;
+      }
+      
       this.profileId = state['profileId'];
       if(this.profileId) {
         this.loadAccessRules(this.profileId);
@@ -35,7 +43,7 @@ export class SetupAccessComponent {
   }
 
   navigateToUsers(uuid: string) {
-    this.router.navigate(["/users"], { state: { accessRuleId: uuid }});
+    this.router.navigate(["main/assign"], { state: { accessRuleId: uuid, walletConnected: this.walletConnected }});
   }
 
   createAccessRule() {

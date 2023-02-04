@@ -27,7 +27,7 @@ export class HomeComponent {
   }
 
   navigateToProfile() {
-    this.router.navigate(['/profile']);
+    this.router.navigate(['/main']);
   }
 
   nextInstructionStep() {
