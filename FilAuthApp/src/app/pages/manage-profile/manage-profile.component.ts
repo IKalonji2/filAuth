@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Organization } from 'src/app/models/models';
+import { ethers } from 'ethers';
+import { ProfileService } from 'src/app/services/profile/profile.service';
 
 @Component({
   selector: 'app-manage-profile',
@@ -12,9 +14,6 @@ export class ManageProfileComponent {
   organization: Organization;
 
   profileConnected: boolean = false;
-  displayConnectWalletDialog: boolean = false;
-  walletConnected: boolean = false;
-  connectWalletMessage: string = "Please make sure you are connected to your wallet before you continue...";
 
   displayCreateProfileDialog: boolean = false;
   displayUpdateProfileDialog: boolean = false;
@@ -22,63 +21,29 @@ export class ManageProfileComponent {
 
   disableEdit: boolean = true;
 
-  constructor(private router: Router) {
-    this.organization = this.getOrganizationDetails();
+  constructor(private router: Router, private profileService: ProfileService) {
+    this.organization = new Organization("");
   }
 
   ngOnInit() {
-    this.connectToWallet();
-
-    if(!this.walletConnected) {
-      this.showConnectWalletDialog();
-    } else {
-      this.connectToProfile();
-    }
-  }
-
-  getOrganizationDetails() {
-    return {
-      address: "HJF84FJHV5RKJV8RH4654E",
-      name : "Fil Auth Company Pty Ltd.",
-      country : "South Africa",
-      province : "Gauteng",
-      city : "Johannesburg",
-      zip : "2092",
-      statistics : this.getOrganizationStatistics()
-    };
-  }
-
-  getOrganizationStatistics() {
-    return {
-      systems : 26,
-      rules : 79,
-      users : 1188
-    };
-  }
-
-  connectToWallet() {
-    this.walletConnected = true;
-  }
-
-  navigateToAccess() {
-    if(this.walletConnected) {
-      this.router.navigate(['/access'], { state: { profileId: this.organization.address }});
-    } else {
-      this.showConnectWalletDialog();
-    }
+    this.connectToProfile();
   }
 
   connectToProfile() {
+    this.getOrganization();
     if(this.organization?.address) {
       this.profileConnected = true;
     } else {
-      this.organization = new Organization();
+      this.organization = new Organization("");
       this.profileConnected = false;
     }
   }
 
+  getOrganization = async () => {
+    await this.profileService.get("dummy").then(data => this.organization = data.data)
+  }
+
   createOrganization() {
-    this.organization.address = "HJF84FJHV5RKJV8RH4654E";
     this.closeCreateProfileDialog();
     this.connectToProfile();
   }
@@ -90,10 +55,14 @@ export class ManageProfileComponent {
 
   removeOrganization() {
     if(this.organization) {
-      this.organization = new Organization();
+      this.organization = new Organization("");
     }
     this.connectToProfile();
     this.closeRemoveProfileDialog();
+  }
+
+  navigateToAccess() {
+    this.router.navigate(['main/access']);
   }
 
   showCreateProfileDialog() {
@@ -118,13 +87,5 @@ export class ManageProfileComponent {
 
   closeRemoveProfileDialog() {
     this.displayRemoveProfileDialog = false;
-  }
-
-  showConnectWalletDialog() {
-    this.displayConnectWalletDialog = true;
-  }
-
-  closeConnectWalletDialog() {
-    this.displayConnectWalletDialog = false;
   }
 }

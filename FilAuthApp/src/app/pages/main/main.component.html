@@ -1,0 +1,31 @@
+<p-menubar>
+    <ng-template pTemplate="start">
+        <div class="header" routerLink="/">
+            <img src="../../../assets/icon.png">
+            <div>Fil-Auth</div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <div class="blobs">
+            <div *ngIf="displayConnectWalletDialog" pTooltip="Wallet Not Connected..." class="blob red"></div>
+            <div *ngIf="!displayConnectWalletDialog" pTooltip="Wallet Connected..." class="blob green"></div>
+        </div>
+    </ng-template>
+</p-menubar>
+
+<router-outlet></router-outlet>
+
+<p-dialog [breakpoints]="{'960px': '50vw', '640px': '95vw'}" [(visible)]="displayConnectWalletDialog" [closable]="false" [modal]="true" [draggable]="false" [style]="{width:'50vw'}">
+    <ng-template pTemplate="header">
+        <div>
+            <i class="pi pi-exclamation-triangle" [ngStyle]="{color:'var(--orange-500)'}"></i>
+            <b> Wallet Not Connected</b>
+        </div>
+    </ng-template>
+    {{ message }}
+    <ng-template pTemplate="footer">
+        <button (click)="connectToWallet()" *ngIf="walletExist" pButton type="button" label="Connect Wallet" icon="pi pi-wallet" iconPos="right"></button>
+        <button (click)="downloadMetamask()" *ngIf="!walletExist" pButton type="button" label="Download" icon="pi pi-download" iconPos="right"></button>
+    </ng-template>
+</p-dialog>
+

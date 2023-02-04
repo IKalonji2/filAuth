@@ -27,15 +27,8 @@ export class HomeComponent {
     this.items = this.instructions.map((i:any) =>  { return { label: i.step };});
   }
 
-  async navigateToProfile() {
-    await this.walletService.connectWallet();
-    if (this.walletService.walletConnected == true){
-      console.log(this.walletService.walletConnected)
-      this.router.navigate(['/profile']);
-    } else {
-      alert("Please connect a wallet!")
-    }
-    
+  navigateToProfile() {
+    this.router.navigate(['/main']);
   }
 
   nextInstructionStep() {

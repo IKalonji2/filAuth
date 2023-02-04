@@ -1,18 +1,6 @@
-<p-menubar>
-    <ng-template pTemplate="start">
-        <div class="header" routerLink="/">
-            <img src="../../../assets/icon.png">
-            <div>Fil-Auth</div>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="end">
-        <button pButton type="button" class="p-button-rounded p-button-outlined" icon="pi pi-user" pTooltip="Connected" tooltipPosition="left"></button>
-    </ng-template>
-</p-menubar>
-
 <div class="content" >
     <div class="title-row">
-        <div class="title">Manage Users</div>
+        <div class="title">Assign Access</div>
         <button pButton type="button"(click)="openAddUserDialog()" class="p-button-raised p-button-outlined p-button-success" label="Add New User" icon="pi pi-user-plus" iconPos="right" [disabled]="!accessRuleId"></button>
     </div>
 

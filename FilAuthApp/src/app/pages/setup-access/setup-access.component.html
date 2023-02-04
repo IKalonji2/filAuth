@@ -1,19 +1,7 @@
-<p-menubar>
-    <ng-template pTemplate="start">
-        <div class="header" routerLink="/">
-            <img src="../../../assets/icon.png">
-            <div>Fil-Auth</div>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="end">
-        <button pButton type="button" class="p-button-rounded p-button-outlined" icon="pi pi-user" pTooltip="Connected" tooltipPosition="left"></button>
-    </ng-template>
-</p-menubar>
-
 <div class="content" >
     <div class="title-row">
         <div class="title">Manage Access</div>
-        <button pButton type="button"(click)="openCreateRuleDialog()" class="p-button-raised p-button-outlined p-button-warning" label="Create Access Rule" icon="pi pi-unlock" iconPos="right" [disabled]="!profileId"></button>
+        <button pButton type="button"(click)="openCreateRuleDialog()" class="p-button-raised p-button-outlined p-button-warning" label="Create Access Rule" icon="pi pi-unlock" iconPos="right" [disabled]="!address"></button>
     </div>
 
     <p-card header="Available Access Rules">
@@ -22,11 +10,11 @@
                 <span class="pi pi-exclamation-triangle no-rules-icon"></span>
             </div>
             <div class="center">
-                <span class="no-rules-msg" *ngIf="profileId">No Access Rule Found!</span>
-                <span class="no-rules-msg" *ngIf="!profileId">No Profile Found, Go Back And Create Profile!</span>
+                <span class="no-rules-msg" *ngIf="address">No Access Rule Found!</span>
+                <span class="no-rules-msg" *ngIf="!address">No Profile Found, Go Back And Create Profile!</span>
             </div>
             <div class="center">
-                <button pButton type="button" class="p-button-raised p-button-warning" (click)="openCreateRuleDialog()" icon="pi pi-unlock" iconPos="right" label="Create Access Rule" [disabled]="!profileId"></button>
+                <button pButton type="button" class="p-button-raised p-button-warning" (click)="openCreateRuleDialog()" icon="pi pi-unlock" iconPos="right" label="Create Access Rule" [disabled]="!address"></button>
             </div>
         </div>
 

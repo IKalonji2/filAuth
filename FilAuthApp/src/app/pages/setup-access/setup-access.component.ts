@@ -12,30 +12,25 @@ export class SetupAccessComponent {
   accessRule: AccessRule = new AccessRule();
   link: Link = new Link();
 
-  profileId: string = "";
+  address: string = "";
 
   currentRuleUUID: string = "";
 
+  displayConnectWalletDialog: boolean = false;
   displayCreateRule: boolean = false;
   displayUpdateRule: boolean = false;
   displayRemoveRule: boolean = false;
 
   constructor(private router: Router) {
-    const state = this.router.getCurrentNavigation()?.extras.state;
-    if(state) {
-      this.profileId = state['profileId'];
-      if(this.profileId) {
-        this.loadAccessRules(this.profileId);
-      }
-    }
+    this.getAddress();
   }
 
-  loadAccessRules(profileId: string) {
-    //Service call
+  getAddress() {
+    this.address = "dummy";
   }
 
-  navigateToUsers(uuid: string) {
-    this.router.navigate(["/users"], { state: { accessRuleId: uuid }});
+  getAccessRules() {
+
   }
 
   createAccessRule() {
@@ -72,10 +67,8 @@ export class SetupAccessComponent {
     }
   }
 
-  resetData() {
-    this.accessRule = new AccessRule();
-    this.link = new Link();
-    this.currentRuleUUID = "";
+  navigateToUsers(uuid: string) {
+    this.router.navigate(["main/assign"], { state: { accessRuleId: uuid }});
   }
 
   openCreateRuleDialog() {
@@ -111,5 +104,11 @@ export class SetupAccessComponent {
   closeRemoveDialog() {
     this.displayRemoveRule = false;
     this.resetData();
+  }
+
+  resetData() {
+    this.accessRule = new AccessRule();
+    this.link = new Link();
+    this.currentRuleUUID = "";
   }
 }

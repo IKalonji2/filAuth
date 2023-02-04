@@ -11,6 +11,9 @@ export class AssignAccessComponent {
 
   displayAddUser: boolean = false;
   displayRemoveUser: boolean = false;
+  displayConnectWalletDialog: boolean = false;
+  
+  walletConnected: boolean = false;
 
   users: User[] = [];
   user: User = new User();
@@ -22,6 +25,11 @@ export class AssignAccessComponent {
   constructor(private router: Router) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if(state) {
+      this.walletConnected = state['walletConnected'];
+      if(!this.walletConnected) {
+        this.displayConnectWalletDialog = true;
+      }
+      
       this.accessRuleId = state['accessRuleId'];
       if(this.accessRuleId){
         this.loadUsers(this.accessRuleId);

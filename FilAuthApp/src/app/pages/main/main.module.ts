@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule,  } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { DialogModule } from 'primeng/dialog';
@@ -12,19 +10,24 @@ import { AccordionModule } from 'primeng/accordion';
 import { FormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
+import { MainRoutingModule } from './main-routing.module';
+import { ManageProfileComponent } from '../manage-profile/manage-profile.component';
+import { AssignAccessComponent } from '../assign-access/assign-access.component';
+import { SetupAccessComponent } from '../setup-access/setup-access.component';
+import { CommonModule } from '@angular/common';
+import { MainComponent } from './main.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent
+    MainComponent,
+    ManageProfileComponent,
+    AssignAccessComponent,
+    SetupAccessComponent,
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
+    CommonModule,
+    MainRoutingModule,
     ButtonModule,
     MenubarModule,
     DialogModule,
@@ -35,8 +38,6 @@ import { HomeComponent } from './pages/home/home.component';
     AccordionModule,
     FormsModule,
     CheckboxModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  ]
 })
-export class AppModule { }
+export class MainModule { }
