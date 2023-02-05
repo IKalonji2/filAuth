@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ethers } from 'ethers';
 import { AccessRule, Link } from 'src/app/models/models';
 import { AccessControlService } from 'src/app/services/contract.service';
 
@@ -23,11 +24,16 @@ export class SetupAccessComponent {
   displayRemoveRule: boolean = false;
 
   constructor(private router: Router, private contractService: AccessControlService) {
+    this.provider = new ethers.providers.Web3Provider(window.ethereum, "any");
     this.getAddress();
   }
 
-  getAddress() {
-    this.address = "dummy";
+  async getAddress() {
+    await this.provider.send("eth_requestAccounts", []).then((data:any) => {
+      this.address = data[0];
+      this.getAccessRules()
+    }).catch((e: any) => {
+    });
   }
 
   getAccessRules = async () => {

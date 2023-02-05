@@ -11,6 +11,8 @@ export class MainComponent {
   
   walletExist: boolean = false;
 
+  walletAddress: string = "";
+
   displayConnectWalletDialog: boolean = false;
 
   messages: string[] = [
@@ -33,8 +35,9 @@ export class MainComponent {
   }
 
   connectToWallet = async () => {
-    this.displayConnectWalletDialog = await this.provider.send("eth_requestAccounts", []).then(() => {
+    this.displayConnectWalletDialog = await this.provider.send("eth_requestAccounts", []).then((data:any) => {
       this.setOnConnectionChanged();
+      this.walletAddress = data[0];
       return false;
     }).catch((e: any) => {
       return true;
@@ -43,7 +46,7 @@ export class MainComponent {
 
   setOnConnectionChanged() {
     this.provider.on("chainChanged", (chainId: string) => this.handleConnectionChange());
-    this.provider.on("accountsChanged", (accounts: Array<string>) => this.handleConnectionChange());
+    this.provider.on("accountsChanged", (accounts: Array<string>) => {this.handleConnectionChange()});
   }
 
   handleConnectionChange() {
