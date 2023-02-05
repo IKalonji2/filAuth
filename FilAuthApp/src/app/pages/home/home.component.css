@@ -86,5 +86,16 @@ p-card {
 }
 
 .content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
     margin: 20px 0;
+}
+
+.content img {
+    height: 20vh;
+}
+
+.mb-20 {
+    margin-bottom: 0;
 }

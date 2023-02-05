@@ -14,13 +14,13 @@
         <img src="../../../assets/favicon.png">
     </div>
 
-    <div class="row">
+    <!--<div class="row">
         <p-card></p-card>
         <p-card></p-card>
         <p-card></p-card>
-    </div>
+    </div>-->
 
-    <p-card>
+    <p-card class="mb-20">
         <ng-template pTemplate="header">
             <div class="center">
                 <span class="card-title">How Does It Work?</span>
@@ -30,7 +30,8 @@
         <p-steps [model]="items" [activeIndex]="activeIndex"></p-steps>
 
         <div class="content" style="color: var(--blue-100)">
-            {{ instructions[activeIndex].instruction }}
+            <div>{{ instructions[activeIndex].instruction }}</div>
+            <img [src]="instructions[activeIndex].image" />
         </div>
 
         <ng-template pTemplate="footer">
