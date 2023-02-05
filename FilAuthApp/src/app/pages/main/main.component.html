@@ -8,6 +8,7 @@
     <ng-template pTemplate="end">
         <div class="blobs">
             <div *ngIf="displayConnectWalletDialog" pTooltip="Wallet Not Connected..." class="blob red"></div>
+            <label for="address" *ngIf="!displayConnectWalletDialog">{{walletAddress}}</label>
             <div *ngIf="!displayConnectWalletDialog" pTooltip="Wallet Connected..." class="blob green"></div>
         </div>
     </ng-template>

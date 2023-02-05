@@ -40,7 +40,7 @@ export class ManageProfileComponent {
   connectToOrganization = async () => {
     await this.provider.send("eth_requestAccounts", []).then((data: any) => {
       this.address = data[0];
-      this.contractService.isOrgRegistered(this.address).then(data => this.connected = data);
+      let orgRegistered = this.contractService.isOrgRegistered(this.address);
       this.getStatistics();
     }).catch((e: any) => {
       this.connected = false;
