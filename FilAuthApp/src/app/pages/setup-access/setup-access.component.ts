@@ -37,6 +37,7 @@ export class SetupAccessComponent {
   }
 
   getAccessRules = async () => {
+    this.accessRules = [];
     await this.contractService.getAccessLevels().then((data => this.accessRules = data));
   }
 
@@ -45,9 +46,10 @@ export class SetupAccessComponent {
       this.getAccessRules();
     }).catch((e:any) => {
       console.log(e.message);
+    }).finally(() => {
+      this.getAccessRules();
+      this.closeCreateRuleDialog();
     });
-    this.accessRules.push(this.accessRule.description);
-    this.closeCreateRuleDialog();
   }
 
   createLink() {
